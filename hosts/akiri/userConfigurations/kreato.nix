@@ -1,9 +1,20 @@
 { config, pkgs, lib, ... }:
 
 {
-    home-manager.users.kreato = {
-        home.stateVersion = "24.05";
+    home.stateVersion = "24.11";
 
-        programs.bash.enable = true;
+    # ZSH
+    programs.zsh.enable = true;
+    programs.zsh.enableCompletion = true;
+    programs.zsh.autosuggestion.enable = true;
+    programs.zsh.shellAliases = {
+        ls = "eza";
+        vim = "nvim";
+    };
+
+    # Starship
+    programs.starship = {
+        enable = true;
+        enableZshIntegration = true;
     };
 }
