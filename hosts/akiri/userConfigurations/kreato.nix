@@ -50,15 +50,24 @@
       fzf-vim
     ];
     extraLuaConfig = ''
-            vim.cmd.colorscheme('embark')
+          vim.cmd.colorscheme('embark')
       	  vim.opt.shiftwidth = 4
-      	  
+      	 
+		  require('dashboard').setup {}
+
       	  require('nvim-treesitter.configs').setup {
       	    highlight = {
       	      enable = true,
       	    },
       	  }
-            
+
+		  require('lualine').setup {
+		  	options = {
+				theme = theme,
+				component_separators = "",
+				section_separators = { left = "", right = "" },
+            }
+		  }
       	  vim.o.tabstop = 4
       	  vim.o.termguicolors = true
       	  vim.o.updatetime = 300
