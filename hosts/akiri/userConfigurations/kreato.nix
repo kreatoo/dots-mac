@@ -21,7 +21,7 @@
   programs.zsh.autosuggestion.enable = true;
   programs.zsh.shellAliases = {
     ls = "eza";
-    clean-gc = "sudo nix-collect-garbage --delete-old";
+    clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
 
   # Starship

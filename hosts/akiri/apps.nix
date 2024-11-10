@@ -23,6 +23,7 @@
 
     casks = [
       "1password"
+	  "transmission"
       "alt-tab"
       "docker"
       "iterm2"
