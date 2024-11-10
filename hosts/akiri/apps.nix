@@ -12,8 +12,6 @@
         tree
         nodejs
         starship
-        zsh-autosuggestions
-        zsh-syntax-highlighting
         dnscrypt-proxy
         fastfetch
     ];
