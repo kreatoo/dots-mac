@@ -13,6 +13,7 @@
     starship
     dnscrypt-proxy
     fastfetch
+	bat
   ];
 
   homebrew = {
@@ -30,7 +31,6 @@
       "font-jetbrains-mono-nerd-font"
       "google-chrome"
       "keyboardcleantool"
-      "raycast"
       "rectangle"
       "signal"
       "soundsource"
