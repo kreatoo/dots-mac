@@ -19,8 +19,10 @@
   programs.zsh.enable = true;
   programs.zsh.enableCompletion = true;
   programs.zsh.autosuggestion.enable = true;
+  programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.shellAliases = {
     ls = "eza";
+	cat = "bat";
     clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
 
