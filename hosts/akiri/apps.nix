@@ -11,7 +11,6 @@
     tree
     nodejs
     starship
-    dnscrypt-proxy
     fastfetch
 	bat
   ];
