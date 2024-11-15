@@ -16,6 +16,9 @@ on:
       PRIVATE_KEY:
         description: GitHub Bot Application client secret
         required: true
+      APP_ID:
+        description: GitHub Bot Application ID
+        required: true
 
 jobs:
   update:
