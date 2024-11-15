@@ -14,3 +14,4 @@ jobs:
       flake-inputs: "nixpkgs nix-darwin home-manager"
     secrets:
       PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      APP_ID: ${{ secrets.APP_ID }}
