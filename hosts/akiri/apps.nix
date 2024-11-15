@@ -13,7 +13,25 @@
     starship
     fastfetch
 	bat
+	spoofdpi
   ];
+
+  # Launchd
+  launchd = {
+    user = {
+	  agents = {
+	    spoofdpi = {
+		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b'";
+		  serviceConfig = {
+		    RunAtLoad = true;
+		    KeepAlive = true;
+		    StandardOutPath = "/dev/null";
+		    StandardErrorPath = "/dev/null";
+		  };
+		};
+	  };
+	};
+  };
 
   homebrew = {
     enable = true;
@@ -39,6 +57,7 @@
       "utm"
       "vivaldi"
       "discord"
+	  "iina"
     ];
   };
 }
