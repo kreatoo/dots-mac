@@ -58,6 +58,7 @@
       "vivaldi"
       "discord"
 	  "iina"
+	  "aldente"
     ];
   };
 }
