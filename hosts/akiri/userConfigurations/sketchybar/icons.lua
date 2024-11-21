@@ -9,6 +9,7 @@ local icons = {
     cpu = "􀫥",
     clipboard = "􀉄",
 	screenshare = "􁅀",
+	network = "􀤆",
 
     switch = {
       on = "􁏮",
