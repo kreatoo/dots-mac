@@ -25,7 +25,7 @@
           ./hosts/akiri/nix.nix
           ./hosts/akiri/system.nix
           ./hosts/akiri/users.nix
-		  #./hosts/akiri/yabai.nix
+		  ./hosts/akiri/yabai.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

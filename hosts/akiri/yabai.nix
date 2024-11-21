@@ -1,23 +1,16 @@
 { pkgs, ... }:
 {
-	services.yabai.enable = false;
-	services.skhd.enable = false;
+	services.yabai.enable = true;
+	services.skhd.enable = true;
+	services.sketchybar.enable = true;
 	services.skhd.skhdConfig = ''
-		# fast focus desktop
-		cmd + alt - x : yabai -m space --focus recent
-		cmd + alt - 1 : yabai -m space --focus 1
-		
-		# send window to desktop and follow focus
-		shift + cmd - z : yabai -m window --space next; yabai -m space --focus next
-		shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
-		
-		# focus monitor
-		ctrl + alt - z  : yabai -m display --focus prev
-		ctrl + alt - 3  : yabai -m display --focus 3
+		hyper - return : open -a /Applications/iTerm.app ~
+		shift + ctrl - z : yabai -m window --space next
+		shift + ctrl - 2 : yabai -m window --space  2
 		
 		# send window to monitor and follow focus
-		ctrl + cmd - c  : yabai -m window --display next; yabai -m display --focus next
-		ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
+		#ctrl + cmd - c  : yabai -m window --display next; yabai -m display --focus next
+		#ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
 		
 		# move floating window
 		# shift + ctrl - a : yabai -m window --move rel:-20:0
@@ -42,15 +35,15 @@
 		# alt - e : yabai -m window --toggle split
 		
 		# float / unfloat window and center on screen
-		# alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+		hyper - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 		
 		# toggle sticky(+float), picture-in-picture
-		# alt - p : yabai -m window --toggle sticky --toggle pip
+		hyper - p : yabai -m window --toggle sticky --toggle pip
 	'';
 
 	services.yabai.config = {
 			external_bar                 = "off:40:0";       
-    		menubar_opacity              = 1.0;            
+    		menubar_opacity              = 0.0;            
     		mouse_follows_focus          = "off";            
     		focus_follows_mouse          = "off";            
     		display_arrangement_order    = "default";        

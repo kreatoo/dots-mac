@@ -13,7 +13,11 @@
     starship
     fastfetch
 	bat
+	sketchybar-app-font
+	lua5_4
 	spoofdpi
+	nowplaying-cli
+
   ];
 
   # Launchd
@@ -39,6 +43,10 @@
       autoUpdate = true;
     };
 
+	brews = [
+		"switchaudio-osx"
+	];
+
     casks = [
       "1password"
 	  "transmission"
@@ -46,6 +54,11 @@
       "docker"
       "iterm2"
       "font-jetbrains-mono-nerd-font"
+	  "font-hack-nerd-font"
+	  "sf-symbols"
+	  "font-sf-mono"
+	  "font-sf-pro"
+	  "microsoft-teams"
       "google-chrome"
       "keyboardcleantool"
       "rectangle"
@@ -59,6 +72,8 @@
       "discord"
 	  "iina"
 	  "aldente"
+	  "notion"
+	  "hyperkey"
     ];
   };
 }

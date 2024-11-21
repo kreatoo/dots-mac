@@ -32,6 +32,12 @@
     enableZshIntegration = true;
   };
 
+
+  home.file."./.config/sketchybar/" = {
+  	source = ./sketchybar;
+	recursive = true;
+  };
+
   # Neovim
   programs.neovim = {
     enable = true;
