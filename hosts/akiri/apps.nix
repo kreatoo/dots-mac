@@ -13,11 +13,9 @@
     starship
     fastfetch
 	bat
-	sketchybar-app-font
-	lua5_4
+	#sketchybar-app-font
+	#lua5_4
 	spoofdpi
-	nowplaying-cli
-
   ];
 
   # Launchd
@@ -39,13 +37,10 @@
 
   homebrew = {
     enable = true;
-    onActivation = {
+    
+	onActivation = {
       autoUpdate = true;
     };
-
-	brews = [
-		"switchaudio-osx"
-	];
 
     casks = [
       "1password"

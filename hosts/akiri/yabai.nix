@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
-	services.yabai.enable = true;
-	services.skhd.enable = true;
-	services.sketchybar.enable = true;
+	services.yabai.enable = false;
+	services.skhd.enable = false;
+	services.sketchybar.enable = false;
 	services.skhd.skhdConfig = ''
 		hyper - return : open -a /Applications/iTerm.app ~
 		shift + ctrl - z : yabai -m window --space next
