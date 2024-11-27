@@ -8,6 +8,7 @@
     gh
     go
     nim
+    nimble
     tree
     nodejs
     starship
