@@ -82,6 +82,8 @@
       	  vim.o.incsearch = false
       	  vim.wo.signcolumn = "yes"
       	  vim.wo.number = true
+		  vim.o.expandtab = true
+		  vim.o.smartindent = true
       	  '';
   };
 }
