@@ -25,7 +25,7 @@
     user = {
 	  agents = {
 	    spoofdpi = {
-		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b'";
+		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b'";
 		  serviceConfig = {
 		    RunAtLoad = true;
 		    KeepAlive = true;
