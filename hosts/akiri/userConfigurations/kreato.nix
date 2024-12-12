@@ -20,11 +20,18 @@
   programs.zsh.enableCompletion = true;
   programs.zsh.autosuggestion.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
+  programs.zsh.history.path = "\${PROFILE_HISTFILE:-$HOME/.zsh_history}";
   programs.zsh.shellAliases = {
     ls = "eza";
 	cat = "bat";
     clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
+  
+  programs.zsh.initExtra = ''
+    if [[ "$WORK_PROFILE" = "true" ]]; then  
+        alias ssh="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
+    fi
+    '';
 
   # Starship
   programs.starship = {
