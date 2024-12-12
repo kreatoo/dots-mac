@@ -30,6 +30,7 @@
   programs.zsh.initExtra = ''
     if [[ "$WORK_PROFILE" = "true" ]]; then  
         alias ssh="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
+        alias scp="scp -o UserKnownHostsFile=~/.ssh/known_hosts_work"
     fi
     '';
 
