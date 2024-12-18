@@ -44,6 +44,10 @@
       autoUpdate = true;
     };
 
+    taps = [
+        "PlayCover/playcover"
+    ];
+
     casks = [
       "1password"
 	  "transmission"
@@ -75,6 +79,7 @@
 	  "affinity-photo"
 	  "affinity-publisher"
       "lens"
+      "playcover-community"
     ];
   };
 }
