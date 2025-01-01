@@ -55,7 +55,7 @@
 
     envFile.text = ''
         for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin"] {
-            $env.Path = ($env.Path + ":" + $item)
+            $env.Path = ($env.Path | append $item)
         }
 
         $env.config.buffer_editor = "nvim"
