@@ -41,6 +41,27 @@
     enableZshIntegration = true;
   };
 
+  # Nushell
+  programs.nushell = {
+    enable = true;
+    shellAliases = {
+      cat = "bat";
+      rebuild = "darwin-rebuild switch --flake ~/.config/nix-darwin#akiri";
+    };
+
+    configFile = {
+        source = ./nushell/config.nu;
+    };
+
+    envFile.text = ''
+        for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin"] {
+            $env.Path = ($env.Path + ":" + $item)
+        }
+
+        $env.config.buffer_editor = "nvim"
+        $env.config.show_banner = false
+    '';
+  };
 
   home.file."./.config/sketchybar/" = {
   	source = ./sketchybar;

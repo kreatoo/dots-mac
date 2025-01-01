@@ -18,6 +18,7 @@
 	#lua5_4
 	spoofdpi
 	qemu
+    watch
   ];
 
   # Launchd
