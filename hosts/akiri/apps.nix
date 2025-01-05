@@ -19,6 +19,7 @@
 	spoofdpi
 	qemu
     watch
+    k9s
   ];
 
   # Launchd
