@@ -20,6 +20,7 @@
 	qemu
     watch
     k9s
+    docker
   ];
 
   # Launchd
@@ -27,7 +28,7 @@
     user = {
 	  agents = {
 	    spoofdpi = {
-		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b'";
+		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b'";
 		  serviceConfig = {
 		    RunAtLoad = true;
 		    KeepAlive = true;
@@ -52,10 +53,15 @@
 
     casks = [
       "1password"
+      "localsend"
+      "msty"
+      "lm-studio"
+      "gzdoom"
+      "orbstack"
 	  "transmission"
       "alt-tab"
-      "docker"
       "iterm2"
+      "handbrake"
       "font-jetbrains-mono-nerd-font"
 	  "font-hack-nerd-font"
 	  "sf-symbols"
