@@ -12,6 +12,7 @@
   home.packages = with pkgs; [
     nodejs
     fzf
+    luarocks
     nixfmt-rfc-style
   ];
 
@@ -54,7 +55,7 @@
     };
 
     envFile.text = ''
-        for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" ] {
+        for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/kreato/.krew/bin" ] {
             $env.Path = ($env.Path | append $item)
         }
 
@@ -106,6 +107,7 @@
 				section_separators = { left = "", right = "" },
             }
 		  }
+
       	  vim.o.tabstop = 4
       	  vim.o.termguicolors = true
       	  vim.o.updatetime = 300

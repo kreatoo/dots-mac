@@ -53,6 +53,7 @@
 
     casks = [
       "1password"
+      "yaak"
       "localsend"
       "msty"
       "lm-studio"
