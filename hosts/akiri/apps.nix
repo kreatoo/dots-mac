@@ -28,7 +28,7 @@
     user = {
 	  agents = {
 	    spoofdpi = {
-		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b'";
+		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b' -pattern '\\btumblr\\b' -pattern '\\b4chan\\b' -pattern '\\bhianime\\b' -pattern '\\bpastebin\\b' -pattern '\\bwikihow\\b'";
 		  serviceConfig = {
 		    RunAtLoad = true;
 		    KeepAlive = true;
@@ -54,14 +54,20 @@
     casks = [
       "1password"
       "yaak"
+      "cursor"
+      "balenaetcher"
+      "galaxybudsclient"
       "localsend"
       "msty"
+      "arc"
       "lm-studio"
       "gzdoom"
       "orbstack"
 	  "transmission"
       "alt-tab"
+      "zed"
       "iterm2"
+      "audacity"
       "handbrake"
       "font-jetbrains-mono-nerd-font"
 	  "font-hack-nerd-font"
@@ -75,6 +81,7 @@
       "signal"
       "soundsource"
       "stremio"
+      "prismlauncher"
       "the-unarchiver"
       "tuta-mail"
       "utm"
