@@ -25,6 +25,8 @@
   programs.zsh.shellAliases = {
     ls = "eza";
 	cat = "bat";
+    e = "gh copilot explain";
+    r = "gh copilot suggest";
     clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
   
@@ -48,6 +50,8 @@
     shellAliases = {
       cat = "bat";
       rebuild = "darwin-rebuild switch --flake ~/.config/nix-darwin#akiri";
+      e = "gh copilot explain";
+      r = "gh copilot suggest";
     };
 
     configFile = {

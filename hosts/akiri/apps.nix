@@ -65,7 +65,6 @@
       "orbstack"
 	  "transmission"
       "alt-tab"
-      "zed"
       "iterm2"
       "audacity"
       "handbrake"
