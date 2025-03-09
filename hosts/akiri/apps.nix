@@ -54,7 +54,8 @@
     casks = [
       "1password"
       "yaak"
-      "cursor"
+      "visual-studio-code"
+      "visual-studio-code@insiders"
       "balenaetcher"
       "galaxybudsclient"
       "localsend"
