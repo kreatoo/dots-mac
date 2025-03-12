@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/update-lock.yaml
     with:
       commit-message: "flake: update lockfile"
-      flake-inputs: "nixpkgs nix-darwin home-manager"
+      flake-inputs: "nixpkgs nix-darwin home-manager nixvim mac-app-util"
     secrets:
       PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       APP_ID: ${{ secrets.APP_ID }}

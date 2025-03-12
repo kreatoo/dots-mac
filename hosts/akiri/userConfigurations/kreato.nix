@@ -6,6 +6,7 @@
 }:
 
 {
+
   home.stateVersion = "24.11";
 
   # Packages
@@ -73,53 +74,13 @@
 	recursive = true;
   };
 
-  # Neovim
-  programs.neovim = {
-    enable = true;
-    coc.enable = true;
-    defaultEditor = true;
-    vimAlias = true;
-    viAlias = true;
-    vimdiffAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      lualine-nvim
-      nvim-treesitter.withAllGrammars
-      vim-fugitive
-      embark-vim
-      dashboard-nvim
-      copilot-vim
-      colorizer
-      nerdtree
-      fzf-vim
-    ];
-    extraLuaConfig = ''
-          vim.cmd.colorscheme('embark')
-      	  vim.opt.shiftwidth = 4
-      	 
-		  require('dashboard').setup {}
-
-      	  require('nvim-treesitter.configs').setup {
-      	    highlight = {
-      	      enable = true,
-      	    },
-      	  }
-
-		  require('lualine').setup {
-		  	options = {
-				theme = theme,
-				component_separators = "",
-				section_separators = { left = "", right = "" },
-            }
-		  }
-
-      	  vim.o.tabstop = 4
-      	  vim.o.termguicolors = true
-      	  vim.o.updatetime = 300
-      	  vim.o.incsearch = false
-      	  vim.wo.signcolumn = "yes"
-      	  vim.wo.number = true
-		  vim.o.expandtab = true
-		  vim.o.smartindent = true
-      	  '';
+  programs.neovide = {
+      enable = true;
+      settings = {
+          wsl = false;
+      };
   };
+
+  
+  imports = [ ./neovim.nix ];
 }
