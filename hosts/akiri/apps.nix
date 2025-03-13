@@ -91,7 +91,6 @@
       "tuta-mail"
 	  "font-sf-pro"
       "keyboardcleantool"
-      "stremio"
       "signal"
 	  "notion"
 	  "affinity-designer"
