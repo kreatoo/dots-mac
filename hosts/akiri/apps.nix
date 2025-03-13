@@ -2,7 +2,12 @@
 
 {
   nixpkgs.config.allowUnfree = true;
- 
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
+  ];
+
   environment.systemPackages = with pkgs; [
     # CLI
     aria2
@@ -24,10 +29,6 @@
     docker
     inetutils
     procps
-
-    # Fonts
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.hack
 
     # GUI apps
     discord
