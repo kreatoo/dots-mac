@@ -1,7 +1,10 @@
 { pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+ 
   environment.systemPackages = with pkgs; [
+    # CLI
     aria2
     btop
     eza
@@ -14,13 +17,36 @@
     starship
     fastfetch
 	bat
-	#sketchybar-app-font
-	#lua5_4
 	spoofdpi
 	qemu
     watch
     k9s
     docker
+    inetutils
+    procps
+
+    # Fonts
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
+
+    # GUI apps
+    discord
+    iterm2
+    google-chrome
+    arc-browser
+    gzdoom
+    vscode
+    localsend
+    prismlauncher
+    alt-tab-macos
+    audacity
+    iina
+    utm
+    rectangle
+    lens
+    soundsource
+    the-unarchiver
+    #signal-desktop
   ];
 
   # Launchd
@@ -53,48 +79,24 @@
 
     casks = [
       "1password"
-      "yaak"
-      "visual-studio-code"
-      "visual-studio-code@insiders"
+      "transmission"
       "balenaetcher"
       "galaxybudsclient"
-      "localsend"
       "msty"
-      "arc"
-      "lm-studio"
-      "gzdoom"
       "orbstack"
-	  "transmission"
-      "alt-tab"
-      "iterm2"
-      "audacity"
-      "handbrake"
-      "font-jetbrains-mono-nerd-font"
-	  "font-hack-nerd-font"
 	  "sf-symbols"
 	  "font-sf-mono"
-	  "font-sf-pro"
-	  "microsoft-teams"
-      "google-chrome"
-      "keyboardcleantool"
-      "rectangle"
-      "signal"
-      "soundsource"
-      "stremio"
-      "prismlauncher"
-      "the-unarchiver"
+      "handbrake"
       "tuta-mail"
-      "utm"
-      "vivaldi"
-      "discord"
-	  "iina"
-	  "aldente"
+	  "font-sf-pro"
+      "keyboardcleantool"
+      "stremio"
+      "signal"
 	  "notion"
-	  "hyperkey"
 	  "affinity-designer"
 	  "affinity-photo"
 	  "affinity-publisher"
-      "lens"
+      "vivaldi"
       "playcover-community"
     ];
   };
