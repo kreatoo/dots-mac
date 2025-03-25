@@ -73,7 +73,7 @@
           behaviour = {
               auto_suggestions = true;
               auto_apply_diff_after_generation = true;
-              enable_cursor_planning_mode = true;
+              #enable_cursor_planning_mode = true;
           };
           provider = "copilot";
           copilot = {     

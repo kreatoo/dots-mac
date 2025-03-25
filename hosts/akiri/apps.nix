@@ -12,6 +12,7 @@
     # CLI
     aria2
     btop
+    uv
     eza
     gh
     go
@@ -47,6 +48,9 @@
     lens
     soundsource
     the-unarchiver
+    mos
+    net-news-wire
+    upscayl
     #signal-desktop
   ];
 
@@ -55,7 +59,7 @@
     user = {
 	  agents = {
 	    spoofdpi = {
-		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b' -pattern '\\btumblr\\b' -pattern '\\b4chan\\b' -pattern '\\bhianime\\b' -pattern '\\bpastebin\\b' -pattern '\\bwikihow\\b'";
+		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b' -pattern '\\btumblr\\b' -pattern '\\b4chan\\b' -pattern '\\bhianime\\b' -pattern '\\bpastebin\\b' -pattern '\\bwikihow\\b' -pattern '\\bprotonvpn\\b'";
 		  serviceConfig = {
 		    RunAtLoad = true;
 		    KeepAlive = true;
@@ -98,6 +102,7 @@
 	  "affinity-publisher"
       "vivaldi"
       "playcover-community"
+      "claude"
     ];
   };
 }
