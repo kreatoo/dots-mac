@@ -3,6 +3,8 @@
   programs.nixvim = {
     enable = true;
     
+    nixpkgs.config.allowUnfree = true;
+
     colorschemes.catppuccin = {
       enable = true;
       settings = {
@@ -11,7 +13,7 @@
     };
 
     plugins = {
-      copilot-lua = {
+      copilot-vim = {
         enable = true;
       };
       

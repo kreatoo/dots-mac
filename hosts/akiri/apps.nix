@@ -7,6 +7,10 @@
     nerd-fonts.jetbrains-mono
     nerd-fonts.hack
   ];
+    
+  environment.variables = {
+      ROSETTA_ADVERTISE_AVX = "1";
+  };
 
   environment.systemPackages = with pkgs; [
     # CLI
