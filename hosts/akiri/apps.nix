@@ -34,6 +34,7 @@
     docker
     inetutils
     procps
+    aider-chat
 
     # GUI apps
     discord
@@ -107,6 +108,7 @@
       "vivaldi"
       "playcover-community"
       "claude"
+      "parallels"
     ];
   };
 }
