@@ -6,6 +6,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     nerd-fonts.hack
+    curie
   ];
     
   environment.variables = {
@@ -38,7 +39,6 @@
 
     # GUI apps
     discord
-    iterm2
     google-chrome
     arc-browser
     gzdoom
@@ -64,7 +64,7 @@
     user = {
 	  agents = {
 	    spoofdpi = {
-		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b' -pattern '\\btumblr\\b' -pattern '\\b4chan\\b' -pattern '\\bhianime\\b' -pattern '\\bpastebin\\b' -pattern '\\bwikihow\\b' -pattern '\\bprotonvpn\\b'";
+		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b' -pattern '\\btumblr\\b' -pattern '\\b4chan\\b' -pattern '\\bhianime\\b' -pattern '\\bpastebin\\b' -pattern '\\bwikihow\\b' -pattern '\\bprotonvpn\\b' -pattern '\\be-hentai\\b'";
 		  serviceConfig = {
 		    RunAtLoad = true;
 		    KeepAlive = true;
@@ -100,6 +100,7 @@
       "tuta-mail"
 	  "font-sf-pro"
       "keyboardcleantool"
+      "iterm2"
       "signal"
 	  "notion"
 	  "affinity-designer"
