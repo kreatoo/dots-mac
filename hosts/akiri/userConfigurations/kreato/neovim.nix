@@ -68,7 +68,7 @@
       };
 
       avante = {
-        enable = true;
+        enable = false;
         settings = {
           auto_suggestions_provider = "copilot";
           cursor_applying_provider = "copilot";

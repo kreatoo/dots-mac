@@ -13,5 +13,6 @@ def clean-gc [] {
 }
 
 def shell [package] {
-    nix shell nixpkgs#($package)
+    $env.NIX_ALLOW_UNFREE = 1
+    nix shell --impure nixpkgs#($package)
 }

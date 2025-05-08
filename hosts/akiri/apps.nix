@@ -23,6 +23,7 @@
     go
     nim
     nimble
+    just
     tree
     nodejs
     starship
@@ -103,13 +104,14 @@
       "iterm2"
       "signal"
 	  "notion"
+      "cursor"
+      "zed"
 	  "affinity-designer"
 	  "affinity-photo"
 	  "affinity-publisher"
       "vivaldi"
       "playcover-community"
       "claude"
-      "parallels"
     ];
   };
 }

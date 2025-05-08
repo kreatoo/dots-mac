@@ -14,6 +14,9 @@
     fzf
     luarocks
     nixfmt-rfc-style
+    hyfetch
+    talosctl
+    opentofu
   ];
 
   # ZSH
@@ -29,8 +32,8 @@
     r = "gh copilot suggest";
     clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
-  
-  programs.zsh.initExtra = ''
+
+  programs.zsh.initContent = ''
     if [[ "$WORK_PROFILE" = "true" ]]; then  
         alias ssh="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
         alias scp="scp -o UserKnownHostsFile=~/.ssh/known_hosts_work"
@@ -52,6 +55,8 @@
       rebuild = "darwin-rebuild switch --flake ~/.config/nix-darwin#akiri";
       e = "gh copilot explain";
       r = "gh copilot suggest";
+      fastfetch = "hyfetch";
+      neofetch = "hyfetch";
     };
 
     configFile = {
