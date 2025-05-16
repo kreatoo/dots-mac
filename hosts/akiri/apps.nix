@@ -105,6 +105,7 @@
       "signal"
 	  "notion"
       "cursor"
+      "kdenlive"
       "zed"
 	  "affinity-designer"
 	  "affinity-photo"
