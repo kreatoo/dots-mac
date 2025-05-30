@@ -4,6 +4,7 @@ let
   vars = import ./common.nix;
 in
 {
+  system.primaryUser = "${ vars.userName }";
   networking.hostName = vars.hostName;
   networking.computerName = vars.hostName;
   system.defaults.smb.NetBIOSName = vars.hostName;

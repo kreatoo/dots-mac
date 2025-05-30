@@ -20,9 +20,12 @@ on:
         description: GitHub Bot Application ID
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   update:
-    name: Update & make PR
+    name: Update & commit
 
     runs-on: ubuntu-latest
 
@@ -48,20 +51,10 @@ jobs:
         run: |
           nix flake update ${{ inputs.flake-inputs }}
 
-      - name: Create Pull request
-        id: pull-request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: update-flake-lock
-          commit-message: ${{ inputs.commit-message }}
-          title: ${{ inputs.commit-message }}
-          token: ${{ steps.app-token.outputs.token }}
-          sign-commits: true
-
-      - name: Enable auto-merge
-        shell: bash
-        if: ${{ env.PR_ID != '' }}
-        run: gh pr merge --auto --squash "$PR_ID"
-        env:
-          PR_ID: ${{ steps.pull-request.outputs.pull-request-number }}
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git add flake.lock
+          git commit -m "${{ inputs.commit-message }}"
+          git push
