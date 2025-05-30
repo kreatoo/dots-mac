@@ -24,6 +24,7 @@
     nim
     nimble
     just
+    bun
     tree
     nodejs
     starship
@@ -41,9 +42,9 @@
     # GUI apps
     discord
     google-chrome
-    arc-browser
     gzdoom
     vscode
+    firefox
     localsend
     prismlauncher
     alt-tab-macos
@@ -51,7 +52,6 @@
     iina
     utm
     rectangle
-    lens
     soundsource
     the-unarchiver
     mos
@@ -91,6 +91,7 @@
     casks = [
       "1password"
       "transmission"
+      "freelens"
       "balenaetcher"
       "galaxybudsclient"
       "msty"
