@@ -38,13 +38,13 @@
     inetutils
     procps
     aider-chat
+    fd
 
     # GUI apps
     discord
     google-chrome
     gzdoom
     vscode
-    firefox
     localsend
     prismlauncher
     alt-tab-macos
@@ -95,6 +95,7 @@
       "balenaetcher"
       "galaxybudsclient"
       "msty"
+      "firefox"
       "orbstack"
 	  "sf-symbols"
 	  "font-sf-mono"
@@ -105,6 +106,7 @@
       "iterm2"
       "signal"
 	  "notion"
+      "hyperkey"
       "cursor"
       "kdenlive"
       "zed"
@@ -113,7 +115,6 @@
 	  "affinity-publisher"
       "vivaldi"
       "playcover-community"
-      "claude"
     ];
   };
 }

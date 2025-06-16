@@ -52,7 +52,7 @@
     enable = true;
     shellAliases = {
       cat = "bat";
-      rebuild = "darwin-rebuild switch --flake ~/.config/nix-darwin#akiri";
+      rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#akiri";
       e = "gh copilot explain";
       r = "gh copilot suggest";
       fastfetch = "hyfetch";

@@ -8,7 +8,6 @@ if $env.WORK_PROFILE? == true {
 }
 
 def clean-gc [] {
-    nix-collect-garbage --delete-old
     sudo nix-collect-garbage --delete-old
 }
 
