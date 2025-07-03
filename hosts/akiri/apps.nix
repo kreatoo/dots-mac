@@ -41,7 +41,6 @@
     fd
 
     # GUI apps
-    discord
     google-chrome
     gzdoom
     vscode
@@ -49,6 +48,7 @@
     prismlauncher
     alt-tab-macos
     audacity
+    ice-bar
     iina
     utm
     rectangle
@@ -98,10 +98,15 @@
       "firefox"
       "orbstack"
 	  "sf-symbols"
+      "imageoptim"
+      "discord"
 	  "font-sf-mono"
+      "appcleaner"
+      "omnidisksweeper"
       "handbrake"
       "tuta-mail"
 	  "font-sf-pro"
+      "obs"
       "keyboardcleantool"
       "iterm2"
       "signal"
@@ -109,7 +114,6 @@
       "hyperkey"
       "cursor"
       "kdenlive"
-      "zed"
 	  "affinity-designer"
 	  "affinity-photo"
 	  "affinity-publisher"
