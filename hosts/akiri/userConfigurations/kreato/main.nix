@@ -17,6 +17,7 @@
     hyfetch
     talosctl
     opentofu
+    kubecolor
   ];
 
   # ZSH
@@ -30,6 +31,8 @@
 	cat = "bat";
     e = "gh copilot explain";
     r = "gh copilot suggest";
+    k = "kubecolor";
+    kubectl = "kubecolor";
     clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
 
@@ -57,6 +60,8 @@
       r = "gh copilot suggest";
       fastfetch = "hyfetch";
       neofetch = "hyfetch";
+      k = "kubecolor";
+      kubectl = "kubecolor";
     };
 
     configFile = {
