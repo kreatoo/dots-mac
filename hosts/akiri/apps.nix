@@ -95,6 +95,7 @@
       "balenaetcher"
       "galaxybudsclient"
       "msty"
+      "easy-move+resize"
       "firefox"
       "orbstack"
 	  "sf-symbols"

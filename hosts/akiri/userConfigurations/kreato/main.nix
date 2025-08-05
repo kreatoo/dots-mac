@@ -26,7 +26,7 @@
   programs.zsh.enableCompletion = true;
   programs.zsh.autosuggestion.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.history.path = ".zsh_history_work";
+  programs.zsh.history.path = "/Users/kreato/\${PROFILE_HISTFILE:-/.zsh_history}";
   programs.zsh.shellAliases = {
     ls = "eza";
 	cat = "bat";
