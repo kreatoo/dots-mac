@@ -33,6 +33,7 @@
     e = "gh copilot explain";
     r = "gh copilot suggest";
     k = "kubecolor";
+    ksh = "kubectl run --image fedora:latest --rm -ti -- bash";
     kubectl = "kubecolor";
     clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
   };
@@ -63,6 +64,7 @@
       neofetch = "hyfetch";
       k = "kubecolor";
       kubectl = "kubecolor";
+      ksh = "kubectl run --image fedora:latest --rm -ti -- bash";
     };
 
     configFile = {

@@ -37,7 +37,7 @@
           {
             home-manager.sharedModules = [
                 mac-app-util.homeManagerModules.default
-                nixvim.homeManagerModules.nixvim
+                nixvim.homeModules.nixvim
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
