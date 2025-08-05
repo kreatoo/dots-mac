@@ -108,6 +108,7 @@
 	  "font-sf-pro"
       "obs"
       "keyboardcleantool"
+      "betterdisplay"
       "iterm2"
       "signal"
 	  "notion"

@@ -18,6 +18,7 @@
     talosctl
     opentofu
     kubecolor
+    kubectl
   ];
 
   # ZSH
@@ -25,7 +26,7 @@
   programs.zsh.enableCompletion = true;
   programs.zsh.autosuggestion.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.history.path = "\${PROFILE_HISTFILE:-$HOME/.zsh_history}";
+  programs.zsh.history.path = ".zsh_history_work";
   programs.zsh.shellAliases = {
     ls = "eza";
 	cat = "bat";
