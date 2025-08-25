@@ -19,6 +19,7 @@
     opentofu
     kubecolor
     kubectl
+    kubectl-klock
   ];
 
   # ZSH
@@ -44,6 +45,18 @@
         alias scp="scp -o UserKnownHostsFile=~/.ssh/known_hosts_work"
         export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
     fi
+   
+    path=(
+    /Users/kreato/.nix-profile/bin
+    /etc/profiles/per-user/kreato/bin
+    /run/current-system/sw/bin
+    /nix/var/nix/profiles/default/bin
+    /usr/local/bin
+    /opt/homebrew/bin
+    /Users/kreato/.krew/bin
+    /Users/kreato/.local/bin
+    $path
+    )
     '';
 
   # Starship
@@ -64,7 +77,6 @@
       neofetch = "hyfetch";
       k = "kubecolor";
       kubectl = "kubecolor";
-      ksh = "kubectl run --image fedora:latest --rm -ti -- bash";
     };
 
     configFile = {
@@ -72,7 +84,7 @@
     };
 
     envFile.text = ''
-        for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/kreato/.krew/bin" ] {
+        for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/kreato/.krew/bin"  "/Users/kreato/.local/bin"] {
             $env.Path = ($env.Path | append $item)
         }
 
