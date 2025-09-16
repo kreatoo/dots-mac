@@ -43,7 +43,7 @@
 
 	services.yabai.config = {
 			external_bar                 = "off:40:0";       
-    		menubar_opacity              = 0.0;            
+    		menubar_opacity              = 1.0;            
     		mouse_follows_focus          = "off";            
     		focus_follows_mouse          = "off";            
     		display_arrangement_order    = "default";        

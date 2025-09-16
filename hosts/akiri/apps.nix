@@ -23,6 +23,7 @@
     go
     nim
     nimble
+    android-tools
     just
     bun
     tree
@@ -43,12 +44,13 @@
     # GUI apps
     google-chrome
     gzdoom
+    scrcpy
     vscode
     localsend
     prismlauncher
     alt-tab-macos
     audacity
-    ice-bar
+    #ice-bar
     iina
     utm
     rectangle

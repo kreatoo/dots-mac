@@ -20,6 +20,7 @@
     kubecolor
     kubectl
     kubectl-klock
+    sbarlua
   ];
 
   # ZSH
