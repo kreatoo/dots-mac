@@ -12,8 +12,29 @@ in
 
   # Packages
   home.packages = with pkgs; [
+    aria2
+    btop
+    uv
+    eza
+    gh
+    go
+    nim
+    nimble
+    android-tools
+    just
+    bun
+    tree
+    starship
+    fastfetch
+    bat
+    qemu
+    watch
+    k9s
+    docker
+    fd
     nodejs
     fzf
+    cursor-cli
     luarocks
     nixfmt-rfc-style
     hyfetch
@@ -22,7 +43,8 @@ in
     kubecolor
     kubectl
     kubectl-klock
-    sbarlua
+    inetutils
+    procps
   ];
 
   # ZSH (gated by user options)

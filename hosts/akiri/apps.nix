@@ -21,34 +21,9 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    # CLI
-    aria2
-    btop
-    uv
-    eza
-    gh
-    go
-    nim
-    nimble
-    android-tools
-    just
-    bun
-    tree
-    nodejs
-    starship
-    fastfetch
-	bat
-	spoofdpi
-	qemu
-    watch
-    k9s
-    docker
-    inetutils
-    procps
-    fd
-    docker
+    # CLI (platform-specific or macOS-only)
+    spoofdpi
     autokbisw
-    cursor-cli
     colima
 
     # GUI apps
