@@ -17,18 +17,18 @@ The current host is `akiri` for user `kreato`.
 ### Repository layout
 | Path | Purpose |
 | - | - |
-| `flake.nix` | Inputs (`nixpkgs-unstable`, `nix-darwin`, `home-manager`, `nixvim`, `treefmt-nix`, `mac-app-util`) and `darwinConfigurations.akiri` module stack. |
-| `hosts/akiri/options.nix` | Central host options and feature toggles (hostname, username, time, services, Homebrew, Yabai). |
-| `hosts/akiri/system.nix` | System defaults (Touch ID sudo, timezone, platform, stateVersion). |
-| `hosts/akiri/nix.nix` | Nix settings (flakes, GC schedule, optimise, package pin). |
-| `hosts/akiri/apps.nix` | Fonts, environment variables, system packages, launchd agents for Autokbisw, Colima, SpoofDPI. |
-| `hosts/akiri/homebrew.nix` | Homebrew taps/casks; supports declarative cleanup. |
-| `hosts/akiri/users.nix` | Primary user, host/computer name, SMB NetBIOS, trusted Nix users. |
-| `hosts/akiri/yabai.nix` | Yabai/skhd/sketchybar toggles and configs (disabled by default). |
-| `hosts/akiri/userConfigurations/kreato/main.nix` | Home-manager entry (packages; shells; Starship; Nushell config/env; conditional Nixvim import). |
-| `hosts/akiri/userConfigurations/kreato/options.nix` | Per-user feature toggles (zsh, nushell, starship, nixvim, neovide). |
-| `hosts/akiri/userConfigurations/kreato/neovim.nix` | Detailed `nixvim` setup (Catppuccin, Treesitter, cmp, lualine, nvim-tree, dashboard; Avante disabled). |
-| `hosts/akiri/userConfigurations/kreato/nushell/config.nu` | Functions/aliases (`clean-gc`, `shell`, `ksh`), optional work profile SSH handling. |
+| [`flake.nix`](flake.nix) | Inputs (`nixpkgs-unstable`, `nix-darwin`, `home-manager`, `nixvim`, `treefmt-nix`, `mac-app-util`) and `darwinConfigurations.akiri` module stack. |
+| [`hosts/akiri/options.nix`](hosts/akiri/options.nix) | Central host options and feature toggles (hostname, username, time, services, Homebrew, Yabai). |
+| [`hosts/akiri/system.nix`](hosts/akiri/system.nix) | System defaults (Touch ID sudo, timezone, platform, stateVersion). |
+| [`hosts/akiri/nix.nix`](hosts/akiri/nix.nix) | Nix settings (flakes, GC schedule, optimise, package pin). |
+| [`hosts/akiri/apps.nix`](hosts/akiri/apps.nix) | Fonts, environment variables, system packages, launchd agents for Autokbisw, Colima, SpoofDPI. |
+| [`hosts/akiri/homebrew.nix`](hosts/akiri/homebrew.nix) | Homebrew taps/casks; supports declarative cleanup. |
+| [`hosts/akiri/users.nix`](hosts/akiri/users.nix) | Primary user, host/computer name, SMB NetBIOS, trusted Nix users. |
+| [`hosts/akiri/yabai.nix`](hosts/akiri/yabai.nix) | Yabai/skhd/sketchybar toggles and configs (disabled by default). |
+| [`hosts/akiri/userConfigurations/kreato/main.nix`](hosts/akiri/userConfigurations/kreato/main.nix) | Home-manager entry (packages; shells; Starship; Nushell config/env; conditional Nixvim import). |
+| [`hosts/akiri/userConfigurations/kreato/options.nix`](hosts/akiri/userConfigurations/kreato/options.nix) | Per-user feature toggles (zsh, nushell, starship, nixvim, neovide). |
+| [`hosts/akiri/userConfigurations/kreato/neovim.nix`](hosts/akiri/userConfigurations/kreato/neovim.nix) | Detailed `nixvim` setup (Catppuccin, Treesitter, cmp, lualine, nvim-tree, dashboard; Avante disabled). |
+| [`hosts/akiri/userConfigurations/kreato/nushell/config.nu`](hosts/akiri/userConfigurations/kreato/nushell/config.nu) | Functions/aliases (`clean-gc`, `shell`, `ksh`), optional work profile SSH handling. |
 
 ### Prerequisites
 - Install Nix or Lix (see the official guide at [nix.dev](https://nix.dev)).
@@ -76,7 +76,7 @@ darwin-rebuild switch --flake .#akiri --rollback
 <details>
 <summary><strong>Feature toggles and customization</strong></summary>
 
-- **Host options (edit `hosts/akiri/options.nix`)**:
+- **Host options (edit [`hosts/akiri/options.nix`](hosts/akiri/options.nix))**:
   - **Basics**:
     - `hostName` (string)
     - `userName` (string)
@@ -91,19 +91,19 @@ darwin-rebuild switch --flake .#akiri --rollback
     - `homebrew.enable` (bool), `homebrew.autoUpdate` (bool), `homebrew.declarative` (bool; controls cleanup mode)
   - **Window management**:
     - `yabai.enable` (bool), `yabai.skhd.enable` (bool), `yabai.sketchybar.enable` (bool)
-- **User options (edit `hosts/akiri/userConfigurations/kreato/options.nix`)**:
+- **User options (edit [`hosts/akiri/userConfigurations/kreato/options.nix`](hosts/akiri/userConfigurations/kreato/options.nix))**:
   - `programs.zsh.enable`, `programs.nushell.enable`, `programs.starship.enable`, `programs.nixvim.enable`, `programs.neovide.enable`
 - **Lists you can customize**:
-  - `hosts/akiri/options.nix`: `services.spoofdpi.patterns` (list of domains/keywords)
-  - `hosts/akiri/apps.nix`:
-    - `fonts.packages` (list)
-    - `environment.systemPackages` (list)
-  - `hosts/akiri/homebrew.nix`:
-    - `homebrew.taps` (list)
-    - `homebrew.casks` (list)
-  - `hosts/akiri/userConfigurations/kreato/main.nix`:
-    - `home.packages` (list)
-- **Neovim**: customize plugins in `hosts/akiri/userConfigurations/kreato/neovim.nix`.
+  - [`hosts/akiri/options.nix`](hosts/akiri/options.nix): `services.spoofdpi.patterns` (list of domains/keywords)
+- [`hosts/akiri/apps.nix`](hosts/akiri/apps.nix):
+  - `fonts.packages` (list)
+  - `environment.systemPackages` (list)
+- [`hosts/akiri/homebrew.nix`](hosts/akiri/homebrew.nix):
+  - `homebrew.taps` (list)
+  - `homebrew.casks` (list)
+- [`hosts/akiri/userConfigurations/kreato/main.nix`](hosts/akiri/userConfigurations/kreato/main.nix):
+  - `home.packages` (list)
+- **Neovim**: customize plugins in [`hosts/akiri/userConfigurations/kreato/neovim.nix`](hosts/akiri/userConfigurations/kreato/neovim.nix).
 
 Example: add a SpoofDPI site pattern in `hosts/akiri/options.nix`:
 
@@ -117,14 +117,14 @@ services.spoofdpi.patterns = [
 </details>
 
 ### Notable configurations
-- **Touch ID for sudo**: enabled in `hosts/akiri/system.nix`.
+- **Touch ID for sudo**: enabled in [`hosts/akiri/system.nix`](hosts/akiri/system.nix).
 - **Nix settings**: flakes enabled, weekly GC (Sunday 00:00), automatic optimisation.
 - **Fonts**: JetBrains Mono Nerd Font, Hack Nerd Font, Curie.
 - **Rosetta**: `ROSETTA_ADVERTISE_AVX=1` for AVX support under Rosetta.
 - **Apps as .app**: integrates [`mac-app-util`](https://github.com/hraban/mac-app-util) to improve macOS app handling for Nix-installed apps.
 
 ### Helpful shell bits (Nushell)
-Defined in `hosts/akiri/userConfigurations/kreato/nushell/config.nu`:
+Defined in [`hosts/akiri/userConfigurations/kreato/nushell/config.nu`](hosts/akiri/userConfigurations/kreato/nushell/config.nu):
 - **`rebuild`**: `darwin-rebuild switch --flake .#akiri`.
 - **`clean-gc`**: `sudo nix-collect-garbage --delete-old`.
 - **`shell <pkg>`**: `nix shell` helper with unfree allowed for ephemeral sessions.
@@ -132,4 +132,4 @@ Defined in `hosts/akiri/userConfigurations/kreato/nushell/config.nu`:
 - **Work profile**: set `WORK_PROFILE=true` to use separate SSH known_hosts and Git SSH options.
 
 ### License
-This project is licensed under **AGPL-3.0**. See `LICENSE`.
+This project is licensed under **AGPL-3.0**. See [`LICENSE`](LICENSE).
