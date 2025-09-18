@@ -60,7 +60,9 @@
       nvim-tree = {
         enable = true;
         openOnSetup = true;
-        respectBufCwd = true;
+        settings = {
+            respect_buf_cwd = true;
+        };
       };
 
       web-devicons = {
