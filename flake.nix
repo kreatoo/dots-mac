@@ -52,6 +52,7 @@
         modules = [
           mac-app-util.darwinModules.default
           ./hosts/akiri/apps.nix
+          ./hosts/akiri/homebrew.nix
           ./hosts/akiri/nix.nix
           ./hosts/akiri/system.nix
           ./hosts/akiri/users.nix
