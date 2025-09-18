@@ -2,7 +2,7 @@ let
   vars = import ./options.nix;
 in
 {
-  security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = vars.security.sudo.touchIdAuth;
   system.defaults.CustomUserPreferences = {
   		"com.apple.security.authorization" = {
   			"ignoreArd" = true;

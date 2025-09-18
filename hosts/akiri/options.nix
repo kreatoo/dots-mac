@@ -1,5 +1,6 @@
 # Main configuration file for akiri
 {
+  # Basic system settings
   hostName = "akiri";
   userName = "kreato";
   
@@ -7,6 +8,13 @@
   time = {
     # Choose your system timezone, e.g. "America/Los_Angeles", "Europe/Berlin"
     timeZone = "Europe/Istanbul";
+  };
+
+  # Global security settings
+  security = {
+    sudo = {
+        touchIdAuth = true;
+    };
   };
 
   # Simple service toggles and options
@@ -54,6 +62,8 @@
     declarative = true;
   };
 
+
+  # Window management tools
   yabai = {
     enable = false;
     
