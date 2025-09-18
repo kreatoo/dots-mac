@@ -31,7 +31,7 @@ in
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    history.path = "/Users/kreato/\${PROFILE_HISTFILE:-/.zsh_history}";
+    history.path = "${config.home.homeDirectory}/\${PROFILE_HISTFILE:-/.zsh_history}";
     shellAliases = {
       ls = "eza";
       cat = "bat";
@@ -50,14 +50,14 @@ in
       fi
      
       path=(
-      /Users/kreato/.nix-profile/bin
-      /etc/profiles/per-user/kreato/bin
+      ${config.home.homeDirectory}/.nix-profile/bin
+      /etc/profiles/per-user/${config.home.username}/bin
       /run/current-system/sw/bin
       /nix/var/nix/profiles/default/bin
       /usr/local/bin
       /opt/homebrew/bin
-      /Users/kreato/.krew/bin
-      /Users/kreato/.local/bin
+      ${config.home.homeDirectory}/.krew/bin
+      ${config.home.homeDirectory}/.local/bin
       $path
       )
       '';
@@ -88,7 +88,7 @@ in
     };
 
     envFile.text = ''
-      for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/kreato/.krew/bin"  "/Users/kreato/.local/bin"] {
+      for item in ["${config.home.homeDirectory}/.nix-profile/bin" "/etc/profiles/per-user/${config.home.username}/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "${config.home.homeDirectory}/.krew/bin"  "${config.home.homeDirectory}/.local/bin"] {
           $env.Path = ($env.Path | append $item)
       }
 
