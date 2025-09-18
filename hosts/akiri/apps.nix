@@ -1,5 +1,12 @@
-{ pkgs, ... }:
-
+{ pkgs, lib, ... }:
+let
+  vars = import ./options.nix;
+  spoofdpiArgsList =
+    (lib.optionals vars.services.spoofdpi.enableDoh [ "-enable-doh" ])
+    ++ [ "-window-size ${toString vars.services.spoofdpi.windowSize}" ]
+    ++ (map (p: "-pattern '\\b${p}\\b'") vars.services.spoofdpi.patterns);
+  spoofdpiArgs = lib.concatStringsSep " " spoofdpiArgsList;
+in
 {
   nixpkgs.config.allowUnfree = true;
 
@@ -38,8 +45,11 @@
     docker
     inetutils
     procps
-    aider-chat
     fd
+    docker
+    autokbisw
+    cursor-cli
+    colima
 
     # GUI apps
     google-chrome
@@ -58,6 +68,8 @@
     the-unarchiver
     mos
     upscayl
+    firefox
+    moonlight-qt
     youtube-music
     #signal-desktop
   ];
@@ -65,65 +77,47 @@
   # Launchd
   launchd = {
     user = {
-	  agents = {
-	    spoofdpi = {
-		  command = "${pkgs.spoofdpi}/bin/spoofdpi -enable-doh -window-size 1 -pattern '\\bdiscord\\b' -pattern '\\bdiscordapp\\b' -pattern '\\bnyaa\\b' -pattern '\\bgelbooru\\b' -pattern '\\bdanbooru\\b' -pattern '\\btumblr\\b' -pattern '\\b4chan\\b' -pattern '\\bhianime\\b' -pattern '\\bpastebin\\b' -pattern '\\bwikihow\\b' -pattern '\\bprotonvpn\\b' -pattern '\\be-hentai\\b' -pattern '\\bmullvad\\b' -pattern '\\bguilded\\b' -pattern '\\bsiker\\b' -pattern '\\bxda-developers\\b'";
-		  serviceConfig = {
-		    RunAtLoad = true;
-		    KeepAlive = true;
-		    StandardOutPath = "/dev/null";
-		    StandardErrorPath = "/dev/null";
-		  };
-		};
-	  };
-	};
-  };
-
-  homebrew = {
-    enable = true;
-    
-	onActivation = {
-      autoUpdate = true;
+      agents = lib.mkMerge [
+        (lib.mkIf vars.services.autokbisw.enable {
+          autokbisw = {
+            command = "${pkgs.autokbisw}/bin/autokbisw";
+            serviceConfig = {
+              RunAtLoad = vars.services.autokbisw.startOnLogin;
+              KeepAlive = true;
+              StandardOutPath = "/dev/null";
+              StandardErrorPath = "/dev/null";
+            };
+          };
+        })
+        (lib.mkIf vars.services.colima.enable {
+          # Colima (Docker on macOS)
+          colima = {
+            command = "${pkgs.colima}/bin/colima start --foreground";
+            serviceConfig = {
+              Label = "com.colima.default";
+              RunAtLoad = vars.services.colima.startOnLogin;
+              KeepAlive = true;
+              StandardOutPath = "/dev/null";
+              StandardErrorPath = "/dev/null";
+              EnvironmentVariables = {
+                PATH = "${pkgs.colima}/bin:${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+              };
+            };
+          };
+        })
+        (lib.mkIf vars.services.spoofdpi.enable {
+          # SpoofDPI (DPI spoofing)
+          spoofdpi = {
+            command = "${pkgs.spoofdpi}/bin/spoofdpi ${spoofdpiArgs}";
+            serviceConfig = {
+              RunAtLoad = vars.services.spoofdpi.startOnLogin;
+              KeepAlive = true;
+              StandardOutPath = "/dev/null";
+              StandardErrorPath = "/dev/null";
+            };
+          };
+        })
+      ];
     };
-
-    taps = [
-        "PlayCover/playcover"
-    ];
-
-    casks = [
-      "1password"
-      "transmission"
-      "freelens"
-      "balenaetcher"
-      "galaxybudsclient"
-      "msty"
-      "easy-move+resize"
-      "firefox"
-      "orbstack"
-	  "sf-symbols"
-      "imageoptim"
-      "discord"
-      "anki"
-	  "font-sf-mono"
-      "appcleaner"
-      "omnidisksweeper"
-      "handbrake"
-      "tuta-mail"
-	  "font-sf-pro"
-      "obs"
-      "keyboardcleantool"
-      "betterdisplay"
-      "iterm2"
-      "signal"
-	  "notion"
-      "hyperkey"
-      "cursor"
-      "kdenlive"
-	  "affinity-designer"
-	  "affinity-photo"
-	  "affinity-publisher"
-      "vivaldi"
-      "playcover-community"
-    ];
   };
 }

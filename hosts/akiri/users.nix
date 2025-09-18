@@ -1,7 +1,7 @@
 { hostname, username, ... }:
 
 let
-  vars = import ./common.nix;
+  vars = import ./options.nix;
 in
 {
   system.primaryUser = "${ vars.userName }";

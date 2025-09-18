@@ -1,8 +1,11 @@
 { pkgs, ... }:
+let
+  vars = import ./options.nix;
+in
 {
-	services.yabai.enable = false;
-	services.skhd.enable = false;
-	services.sketchybar.enable = false;
+	services.yabai.enable = vars.yabai.enable;
+	services.skhd.enable = vars.yabai.skhd.enable;
+	services.sketchybar.enable = vars.yabai.sketchybar.enable;
 	services.skhd.skhdConfig = ''
 		hyper - return : open -a /Applications/iTerm.app ~
 		shift + ctrl - z : yabai -m window --space next
