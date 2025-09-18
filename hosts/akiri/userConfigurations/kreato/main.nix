@@ -1,10 +1,12 @@
-{
+{ 
   config,
   pkgs,
   lib,
   ...
 }:
-
+let
+  uopts = import ./options.nix;
+in
 {
   home.stateVersion = "24.11";
 
@@ -23,51 +25,52 @@
     sbarlua
   ];
 
-  # ZSH
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = true;
-  programs.zsh.autosuggestion.enable = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.history.path = "/Users/kreato/\${PROFILE_HISTFILE:-/.zsh_history}";
-  programs.zsh.shellAliases = {
-    ls = "eza";
-	cat = "bat";
-    e = "gh copilot explain";
-    r = "gh copilot suggest";
-    k = "kubecolor";
-    ksh = "kubectl run --image fedora:latest --rm -ti -- bash";
-    kubectl = "kubecolor";
-    clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
-  };
-
-  programs.zsh.initContent = ''
-    if [[ "$WORK_PROFILE" = "true" ]]; then  
-        alias ssh="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
-        alias scp="scp -o UserKnownHostsFile=~/.ssh/known_hosts_work"
-        export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
-    fi
-   
-    path=(
-    /Users/kreato/.nix-profile/bin
-    /etc/profiles/per-user/kreato/bin
-    /run/current-system/sw/bin
-    /nix/var/nix/profiles/default/bin
-    /usr/local/bin
-    /opt/homebrew/bin
-    /Users/kreato/.krew/bin
-    /Users/kreato/.local/bin
-    $path
-    )
-    '';
-
-  # Starship
-  programs.starship = {
+  # ZSH (gated by user options)
+  programs.zsh = lib.mkIf uopts.programs.zsh.enable {
     enable = true;
-    enableZshIntegration = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    history.path = "/Users/kreato/\${PROFILE_HISTFILE:-/.zsh_history}";
+    shellAliases = {
+      ls = "eza";
+      cat = "bat";
+      e = "gh copilot explain";
+      r = "gh copilot suggest";
+      k = "kubecolor";
+      ksh = "kubectl run --image fedora:latest --rm -ti -- bash";
+      kubectl = "kubecolor";
+      clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
+    };
+    initContent = ''
+      if [[ "$WORK_PROFILE" = "true" ]]; then  
+          alias ssh="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
+          alias scp="scp -o UserKnownHostsFile=~/.ssh/known_hosts_work"
+          export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work"
+      fi
+     
+      path=(
+      /Users/kreato/.nix-profile/bin
+      /etc/profiles/per-user/kreato/bin
+      /run/current-system/sw/bin
+      /nix/var/nix/profiles/default/bin
+      /usr/local/bin
+      /opt/homebrew/bin
+      /Users/kreato/.krew/bin
+      /Users/kreato/.local/bin
+      $path
+      )
+      '';
   };
 
-  # Nushell
-  programs.nushell = {
+  # Starship (gated)
+  programs.starship = lib.mkIf uopts.programs.starship.enable {
+    enable = true;
+    enableZshIntegration = uopts.programs.zsh.enable;
+  };
+
+  # Nushell (gated)
+  programs.nushell = lib.mkIf uopts.programs.nushell.enable {
     enable = true;
     shellAliases = {
       cat = "bat";
@@ -81,31 +84,26 @@
     };
 
     configFile = {
-        source = ./nushell/config.nu;
+      source = ./nushell/config.nu;
     };
 
     envFile.text = ''
-        for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/kreato/.krew/bin"  "/Users/kreato/.local/bin"] {
-            $env.Path = ($env.Path | append $item)
-        }
+      for item in ["/Users/kreato/.nix-profile/bin" "/etc/profiles/per-user/kreato/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/kreato/.krew/bin"  "/Users/kreato/.local/bin"] {
+          $env.Path = ($env.Path | append $item)
+      }
 
-        $env.config.buffer_editor = "nvim"
-        $env.config.show_banner = false
+      $env.config.buffer_editor = "nvim"
+      $env.config.show_banner = false
     '';
   };
 
-  home.file."./.config/sketchybar/" = {
-  	source = ./sketchybar;
-	recursive = true;
-  };
-
-  programs.neovide = {
-      enable = true;
-      settings = {
-          wsl = false;
-      };
+  programs.neovide = lib.mkIf uopts.programs.neovide.enable {
+    enable = true;
+    settings = {
+      wsl = false;
+    };
   };
 
   
-  imports = [ ./neovim.nix ];
+  imports = lib.optionals uopts.programs.nixvim.enable [ ./neovim.nix ];
 }
