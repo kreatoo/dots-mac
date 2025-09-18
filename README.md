@@ -25,10 +25,10 @@ The current host is `akiri` for user `kreato`.
 | [`hosts/akiri/homebrew.nix`](hosts/akiri/homebrew.nix) | Homebrew taps/casks; supports declarative cleanup. |
 | [`hosts/akiri/users.nix`](hosts/akiri/users.nix) | Primary user, host/computer name, SMB NetBIOS, trusted Nix users. |
 | [`hosts/akiri/yabai.nix`](hosts/akiri/yabai.nix) | Yabai/skhd/sketchybar toggles and configs (disabled by default). |
-| [`hosts/akiri/userConfigurations/kreato/main.nix`](hosts/akiri/userConfigurations/kreato/main.nix) | Home-manager entry (packages; shells; Starship; Nushell config/env; conditional Nixvim import). |
-| [`hosts/akiri/userConfigurations/kreato/options.nix`](hosts/akiri/userConfigurations/kreato/options.nix) | Per-user feature toggles (zsh, nushell, starship, nixvim, neovide). |
-| [`hosts/akiri/userConfigurations/kreato/neovim.nix`](hosts/akiri/userConfigurations/kreato/neovim.nix) | Detailed `nixvim` setup (Catppuccin, Treesitter, cmp, lualine, nvim-tree, dashboard; Avante disabled). |
-| [`hosts/akiri/userConfigurations/kreato/nushell/config.nu`](hosts/akiri/userConfigurations/kreato/nushell/config.nu) | Functions/aliases (`clean-gc`, `shell`, `ksh`), optional work profile SSH handling. |
+| [`userConfigurations/kreato/main.nix`](userConfigurations/kreato/main.nix) | Home-manager entry (packages; shells; Starship; Nushell config/env; conditional Nixvim import). |
+| [`userConfigurations/kreato/options.nix`](userConfigurations/kreato/options.nix) | Per-user feature toggles (zsh, nushell, starship, nixvim, neovide). |
+| [`userConfigurations/kreato/neovim.nix`](userConfigurations/kreato/neovim.nix) | Detailed `nixvim` setup (Catppuccin, Treesitter, cmp, lualine, nvim-tree, dashboard; Avante disabled). |
+| [`userConfigurations/kreato/nushell/config.nu`](userConfigurations/kreato/nushell/config.nu) | Functions/aliases (`clean-gc`, `shell`, `ksh`), optional work profile SSH handling. |
 
 ### Prerequisites
 - Install Nix or Lix (see the official guide at [nix.dev](https://nix.dev)).
@@ -91,7 +91,7 @@ darwin-rebuild switch --flake .#akiri --rollback
     - `homebrew.enable` (bool), `homebrew.autoUpdate` (bool), `homebrew.declarative` (bool; controls cleanup mode)
   - **Window management**:
     - `yabai.enable` (bool), `yabai.skhd.enable` (bool), `yabai.sketchybar.enable` (bool)
-- **User options (edit [`hosts/akiri/userConfigurations/kreato/options.nix`](hosts/akiri/userConfigurations/kreato/options.nix))**:
+- **User options (edit [`userConfigurations/kreato/options.nix`](userConfigurations/kreato/options.nix))**:
   - `programs.zsh.enable`, `programs.nushell.enable`, `programs.starship.enable`, `programs.nixvim.enable`, `programs.neovide.enable`
 - **Lists you can customize**:
   - [`hosts/akiri/options.nix`](hosts/akiri/options.nix): `services.spoofdpi.patterns` (list of domains/keywords)
@@ -101,9 +101,9 @@ darwin-rebuild switch --flake .#akiri --rollback
 - [`hosts/akiri/homebrew.nix`](hosts/akiri/homebrew.nix):
   - `homebrew.taps` (list)
   - `homebrew.casks` (list)
-- [`hosts/akiri/userConfigurations/kreato/main.nix`](hosts/akiri/userConfigurations/kreato/main.nix):
+- [`userConfigurations/kreato/main.nix`](userConfigurations/kreato/main.nix):
   - `home.packages` (list)
-- **Neovim**: customize plugins in [`hosts/akiri/userConfigurations/kreato/neovim.nix`](hosts/akiri/userConfigurations/kreato/neovim.nix).
+- **Neovim**: customize plugins in [`userConfigurations/kreato/neovim.nix`](userConfigurations/kreato/neovim.nix).
 
 Example: add a SpoofDPI site pattern in `hosts/akiri/options.nix`:
 
@@ -124,7 +124,7 @@ services.spoofdpi.patterns = [
 - **Apps as .app**: integrates [`mac-app-util`](https://github.com/hraban/mac-app-util) to improve macOS app handling for Nix-installed apps.
 
 ### Helpful shell bits (Nushell)
-Defined in [`hosts/akiri/userConfigurations/kreato/nushell/config.nu`](hosts/akiri/userConfigurations/kreato/nushell/config.nu):
+Defined in [`userConfigurations/kreato/nushell/config.nu`](userConfigurations/kreato/nushell/config.nu):
 - **`rebuild`**: `darwin-rebuild switch --flake .#akiri`.
 - **`clean-gc`**: `sudo nix-collect-garbage --delete-old`.
 - **`shell <pkg>`**: `nix shell` helper with unfree allowed for ephemeral sessions.

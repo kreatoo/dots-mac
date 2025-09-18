@@ -65,7 +65,7 @@
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.kreato = import ./hosts/akiri/userConfigurations/kreato/main.nix;
+            home-manager.users.kreato = import ./userConfigurations/kreato/main.nix;
           }
         ];
       };
