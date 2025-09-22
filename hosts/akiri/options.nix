@@ -50,7 +50,6 @@
         "mullvad"
         "guilded"
         "siker"
-        "xda-developers"
       ];
     };
   };
