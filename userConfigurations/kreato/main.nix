@@ -20,6 +20,7 @@ in
     go
     nim
     nimble
+    ollama
     android-tools
     just
     bun
