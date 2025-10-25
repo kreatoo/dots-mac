@@ -19,6 +19,11 @@
 
   # Simple service toggles and options
   services = {
+    ollama = {
+      enable = true;
+      startOnLogin = true;
+    };
+
     autokbisw = {
       enable = true;
       startOnLogin = true;

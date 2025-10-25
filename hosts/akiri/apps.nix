@@ -29,6 +29,7 @@ in
     # GUI apps
     google-chrome
     gzdoom
+    cyberduck
     scrcpy
     vscode
     localsend
@@ -55,12 +56,12 @@ in
       agents = lib.mkMerge [
         (lib.mkIf vars.services.autokbisw.enable {
           autokbisw = {
-            command = "${pkgs.autokbisw}/bin/autokbisw";
+            command = "${pkgs.autokbisw}/bin/autokbisw --verbose";
             serviceConfig = {
               RunAtLoad = vars.services.autokbisw.startOnLogin;
               KeepAlive = true;
-              StandardOutPath = "/dev/null";
-              StandardErrorPath = "/dev/null";
+              StandardOutPath = "/tmp/autokbisw.log";
+              StandardErrorPath = "/tmp/autokbisw.log";
             };
           };
         })
@@ -91,6 +92,18 @@ in
               StandardErrorPath = "/dev/null";
             };
           };
+        })
+        (lib.mkIf vars.services.ollama.enable {
+            # Ollama (Running LLMs)
+            ollama = {
+                command = "${pkgs.ollama}/bin/ollama serve";
+                serviceConfig = {
+                    RunAtLoad = vars.services.ollama.startOnLogin;
+                    KeepAlive = true;
+                    StandardOutPath = "/dev/null";
+                    StandardErrorPath = "/dev/null";
+                };
+            };
         })
       ];
     };

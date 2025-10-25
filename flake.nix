@@ -45,10 +45,13 @@
       nixvim,
       ...
     }:
+    let
+        systemName = "akiri";
+    in
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#akiri
-      darwinConfigurations."akiri" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.${systemName} = nix-darwin.lib.darwinSystem {
         modules = [
           mac-app-util.darwinModules.default
           ./hosts/akiri/apps.nix
@@ -66,6 +69,9 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.kreato = import ./userConfigurations/kreato/main.nix;
+            home-manager.extraSpecialArgs = {
+                inherit systemName;
+            };
           }
         ];
       };

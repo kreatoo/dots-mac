@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  systemName,
   ...
 }:
 let
@@ -20,6 +21,8 @@ in
     go
     nim
     nimble
+    yt-dlp
+    ffmpeg
     ollama
     android-tools
     just
@@ -39,10 +42,12 @@ in
     luarocks
     nixfmt-rfc-style
     hyfetch
+    nmap
     talosctl
     opentofu
     kubecolor
     kubectl
+    slack
     kubectl-klock
     inetutils
     procps
@@ -97,7 +102,7 @@ in
     enable = true;
     shellAliases = {
       cat = "bat";
-      rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#akiri";
+      rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#${systemName}";
       e = "gh copilot explain";
       r = "gh copilot suggest";
       fastfetch = "hyfetch";
