@@ -44,7 +44,6 @@ in
     the-unarchiver
     mos
     upscayl
-    firefox
     moonlight-qt
     youtube-music
     #signal-desktop
