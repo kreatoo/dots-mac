@@ -122,10 +122,17 @@
       snacks = {
         enable = true;
         settings = {
+          terminal = {
+            enable = true;
+          };
+          input = { 
+            enable = true;
+          };
           image = {
             force = true;
           };
           gh = { };
+          lazygit = { };
           picker = {
             sources = {
               gh_issue = { };
@@ -143,6 +150,10 @@
             ];
           };
         };
+      };
+
+      opencode = {
+        enable = true;
       };
 
       nvim-tree = {
@@ -200,6 +211,13 @@
     };
 
     keymaps = [
+      {
+        key = "<leader>gg";
+        action.__raw = "function() Snacks.lazygit() end";
+        options = {
+          desc = "Lazygit";
+        };
+      }
       {
         key = "<leader>gi";
         action.__raw = "function() Snacks.picker.gh_issue() end";
