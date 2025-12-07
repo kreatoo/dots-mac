@@ -30,7 +30,6 @@ in
       "cap"
       "transmission"
       "inkscape"
-      "tradingview"
       "keyboardcleantool"
       "betterdisplay"
       "iterm2"
