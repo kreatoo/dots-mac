@@ -40,7 +40,7 @@ in
     iina
     utm
     rectangle
-    soundsource
+    #soundsource
     the-unarchiver
     mos
     upscayl
@@ -68,7 +68,7 @@ in
         (lib.mkIf vars.services.colima.enable {
           # Colima (Docker on macOS)
           colima = {
-            command = "${pkgs.colima}/bin/colima start --foreground";
+            command = "${pkgs.colima}/bin/colima start --memory ${vars.services.colima.options.memory} --foreground";
             serviceConfig = {
               Label = "com.colima.default";
               RunAtLoad = vars.services.colima.startOnLogin;
