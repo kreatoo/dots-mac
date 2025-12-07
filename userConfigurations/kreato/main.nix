@@ -23,10 +23,11 @@ in
     nimble
     yt-dlp
     ffmpeg
-    ollama
+    #ollama
     android-tools
     just
     bun
+    imagemagick
     tree
     starship
     fastfetch
@@ -40,6 +41,8 @@ in
     fzf
     cursor-cli
     luarocks
+    opencode
+    claude-code
     nixfmt-rfc-style
     hyfetch
     nmap
@@ -109,6 +112,8 @@ in
       neofetch = "hyfetch";
       k = "kubecolor";
       kubectl = "kubecolor";
+      gc = "git commit";
+      gitc = "git commit";
     };
 
     configFile = {
