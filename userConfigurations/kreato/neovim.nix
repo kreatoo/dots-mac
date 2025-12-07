@@ -1,14 +1,30 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   programs.nixvim = {
     enable = true;
-    
+
     nixpkgs.config.allowUnfree = true;
 
-    colorschemes.catppuccin = {
-      enable = true;
-      settings = {
-        flavour = "mocha";
+    colorschemes = {
+      catppuccin = {
+        enable = false;
+        settings = {
+          flavour = "mocha";
+        };
+      };
+
+      kanagawa = {
+        enable = true;
+        settings = {
+          background = {
+            dark = "dragon";
+          };
+        };
       };
     };
 
@@ -16,20 +32,50 @@
       copilot-vim = {
         enable = false;
       };
-      
+
       colorizer = {
         enable = true;
       };
-      
+
       lualine = {
         enable = true;
         settings = {
           options = {
             component_separators = "";
-            section_separators = { 
-              left = ""; 
-              right = "";
+            section_separators = {
+              left = "";
+              right = "";
             };
+          };
+          sections = {
+            lualine_a = [
+              {
+                __unkeyed-1 = "mode";
+                separator = {
+                  left = "";
+                  right = "";
+                };
+                padding = {
+                  left = 1;
+                  right = 1;
+                };
+              }
+            ];
+            lualine_z = [
+              {
+                __unkeyed-1 = "location";
+                separator = {
+
+                  right = "";
+                  left = "";
+
+                };
+                padding = {
+                  left = 1;
+                  right = 1;
+                };
+              }
+            ];
           };
         };
       };
@@ -48,7 +94,7 @@
             { name = "buffer"; }
           ];
           #performance = {
-            # Increase timeout for LLM responses
+          # Increase timeout for LLM responses
           #  fetching_timeout = 2000;
           #};
           mapping = {
@@ -72,20 +118,46 @@
           };
         };
       };
-      
-      dashboard = {
+
+      snacks = {
         enable = true;
+        settings = {
+          image = {
+            force = true;
+          };
+          gh = { };
+          picker = {
+            sources = {
+              gh_issue = { };
+              gh_pr = { };
+            };
+          };
+          dashboard = {
+            sections = [
+              { section = "header"; }
+              {
+                section = "keys";
+                gap = 1;
+                padding = 1;
+              }
+            ];
+          };
+        };
       };
 
       nvim-tree = {
         enable = true;
-        openOnSetup = true;
+        openOnSetup = false;
         settings = {
-            respect_buf_cwd = true;
+          respect_buf_cwd = true;
         };
       };
 
       web-devicons = {
+        enable = true;
+      };
+
+      mini-icons = {
         enable = true;
       };
 
@@ -122,6 +194,54 @@
       expandtab = true;
       smartindent = true;
     };
+
+    globals = {
+      mapleader = " ";
+    };
+
+    keymaps = [
+      {
+        key = "<leader>gi";
+        action.__raw = "function() Snacks.picker.gh_issue() end";
+        options = {
+          desc = "GitHub Issues (open)";
+        };
+      }
+      {
+        key = "<leader>gI";
+        action.__raw = "function() Snacks.picker.gh_issue({ state = 'all' }) end";
+        options = {
+          desc = "GitHub Issues (all)";
+        };
+      }
+      {
+        key = "<leader>gp";
+        action.__raw = "function() Snacks.picker.gh_pr() end";
+        options = {
+          desc = "GitHub Pull Requests (open)";
+        };
+      }
+      {
+        key = "<leader>gP";
+        action.__raw = "function() Snacks.picker.gh_pr({ state = 'all' }) end";
+        options = {
+          desc = "GitHub Pull Requests (all)";
+        };
+      }
+      {
+        key = "<leader>no";
+        action.__raw = "function() require('nvim-tree.api').tree.toggle() end";
+        options = {
+          desc = "Toggle nvim-tree";
+        };
+      }
+      {
+        key = "<leader>ff";
+        action.__raw = "function() Snacks.picker.files() end";
+        options = {
+          desc = "Find Files";
+        };
+      }
+    ];
   };
 }
-
