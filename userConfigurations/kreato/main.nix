@@ -39,6 +39,7 @@ in
     fd
     nodejs
     fzf
+    lazygit
     cursor-cli
     luarocks
     opencode
