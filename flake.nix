@@ -31,6 +31,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       # Ensure mac-app-util's treefmt-nix also follows our root nixpkgs
       inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.cl-nix-lite.url = "github:kreatoo/cl-nix-lite/url-fix";
+    };
+
+    jovian = {
+      url = "github:Jovian-Experiments/Jovian-NixOS";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
@@ -43,6 +49,7 @@
       nixpkgs,
       mac-app-util,
       nixvim,
+      jovian,
       ...
     }:
     let
@@ -72,6 +79,21 @@
             home-manager.extraSpecialArgs = {
                 inherit systemName;
             };
+          }
+        ];
+      };
+
+      # Build NixOS flake using:
+      # $ sudo nixos-rebuild build --flake .#ludus
+      nixosConfigurations.ludus = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          jovian.nixosModules.jovian
+          ./hosts/ludus/system.nix
+          ./hosts/ludus/users.nix
+          ./hosts/ludus/jovian.nix
+          {
+            nixpkgs.overlays = [ jovian.overlays.default ];
           }
         ];
       };
