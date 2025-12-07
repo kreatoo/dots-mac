@@ -20,7 +20,7 @@
   # Simple service toggles and options
   services = {
     ollama = {
-      enable = true;
+      enable = false;
       startOnLogin = true;
     };
 
@@ -32,6 +32,9 @@
     colima = {
       enable = true;
       startOnLogin = true;
+      options = {
+          memory = "10";
+      };
     };
     
     spoofdpi = {
