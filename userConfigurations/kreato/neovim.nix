@@ -19,11 +19,18 @@
       };
 
       kanagawa = {
-        enable = true;
+        enable = false;
         settings = {
           background = {
             dark = "dragon";
           };
+        };
+      };
+
+      everforest = {
+        enable = true;
+        settings = {
+          background = "hard";
         };
       };
     };

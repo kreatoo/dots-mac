@@ -1,0 +1,46 @@
+{ pkgs, ... }: {
+  home.packages = with pkgs; [
+    aria2
+    btop
+    uv
+    eza
+    gh
+    go
+    nim
+    nimble
+    yt-dlp
+    ffmpeg
+    #ollama
+    android-tools
+    just
+    bun
+    imagemagick
+    tree
+    starship
+    fastfetch
+    bat
+    qemu
+    watch
+    k9s
+    docker
+    fd
+    nodejs
+    fzf
+    lazygit
+    cursor-cli
+    luarocks
+    opencode
+    claude-code
+    nixfmt-rfc-style
+    hyfetch
+    nmap
+    talosctl
+    opentofu
+    kubecolor
+    kubectl
+    slack
+    kubectl-klock
+    inetutils
+    procps
+  ];
+}

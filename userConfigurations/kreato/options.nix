@@ -6,5 +6,6 @@
     starship.enable = true;
     nixvim.enable = true;
     neovide.enable = true;
+    opencode.enable = true;
   };
 }
