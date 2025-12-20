@@ -31,7 +31,6 @@ in
     gzdoom
     cyberduck
     scrcpy
-    vscode
     localsend
     prismlauncher
     alt-tab-macos
