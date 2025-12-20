@@ -39,7 +39,6 @@ in
       "hyperkey"
       "obs"
       "android-studio"
-      "cursor"
       "raycast"
 	  "affinity-designer"
 	  "affinity-photo"
