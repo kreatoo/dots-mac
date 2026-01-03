@@ -1,3 +1,4 @@
+
 if $env.WORK_PROFILE? == true {
     alias ssh = ssh -o UserKnownHostsFile=~/.ssh/known_hosts_work
     alias scp = scp -o UserKnownHostsFile=~/.ssh/known_hosts_work

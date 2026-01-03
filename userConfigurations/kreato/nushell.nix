@@ -31,4 +31,20 @@
       $env.config.show_banner = false
     '';
   };
+
+  programs.carapace = {
+      enable = lib.mkIf uopts.programs.nushell.enable true;
+      enableNushellIntegration = true;
+  };
+
+  # Carapace spec to map kubecolor to kubectl completions via Cobra bridge
+  # macOS uses ~/Library/Application Support/carapace/ instead of ~/.config/carapace/
+  home.file."Library/Application Support/carapace/specs/kubecolor.yaml" = lib.mkIf uopts.programs.nushell.enable {
+    text = ''
+      name: kubecolor
+      description: kubecolor wraps kubectl with colors
+      completion:
+        positionalany: ["$carapace.bridge.Cobra([kubecolor])"]
+    '';
+  };
 }
