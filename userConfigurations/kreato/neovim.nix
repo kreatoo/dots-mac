@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  uopts,
   ...
 }:
 {
@@ -132,7 +133,7 @@
           terminal = {
             enable = true;
           };
-          input = { 
+          input = {
             enable = true;
           };
           image = {
@@ -160,7 +161,7 @@
       };
 
       opencode = {
-        enable = true;
+        enable = uopts.programs.opencode.enable;
       };
 
       nvim-tree = {
