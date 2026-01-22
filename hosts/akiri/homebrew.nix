@@ -16,6 +16,7 @@ in
 
     casks = [
       "1password"
+      "blackhole-16ch"
       "balenaetcher"
       "galaxybudsclient"
       "easy-move+resize"
@@ -36,6 +37,7 @@ in
       "betterdisplay"
       "iterm2"
       "signal"
+      "whatsapp"
       "hyperkey"
       "obs"
       "android-studio"

@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   vars = import ./options.nix;
   spoofdpiArgsList =
@@ -6,6 +11,15 @@ let
     ++ [ "-window-size ${toString vars.services.spoofdpi.windowSize}" ]
     ++ (map (p: "-pattern '\\b${p}\\b'") vars.services.spoofdpi.patterns);
   spoofdpiArgs = lib.concatStringsSep " " spoofdpiArgsList;
+  scientifica-nerd = pkgs.scientifica.overrideAttrs (o: {
+    nativeBuildInputs = (o.nativeBuildInputs or [ ]) ++ [ pkgs.nerd-font-patcher ];
+    postInstall = (o.postInstall or "") + ''
+      mkdir -p $out/share/fonts/truetype/scientifica-nerd
+      for f in $out/share/fonts/truetype/*.ttf; do
+        nerd-font-patcher --complete --outputdir $out/share/fonts/truetype/scientifica-nerd/ "$f"
+      done
+    '';
+  });
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -14,10 +28,11 @@ in
     nerd-fonts.jetbrains-mono
     nerd-fonts.hack
     curie
+    scientifica-nerd
   ];
-    
+
   environment.variables = {
-      ROSETTA_ADVERTISE_AVX = "1";
+    ROSETTA_ADVERTISE_AVX = "1";
   };
 
   environment.systemPackages = with pkgs; [
@@ -92,16 +107,16 @@ in
           };
         })
         (lib.mkIf vars.services.ollama.enable {
-            # Ollama (Running LLMs)
-            ollama = {
-                command = "${pkgs.ollama}/bin/ollama serve";
-                serviceConfig = {
-                    RunAtLoad = vars.services.ollama.startOnLogin;
-                    KeepAlive = true;
-                    StandardOutPath = "/dev/null";
-                    StandardErrorPath = "/dev/null";
-                };
+          # Ollama (Running LLMs)
+          ollama = {
+            command = "${pkgs.ollama}/bin/ollama serve";
+            serviceConfig = {
+              RunAtLoad = vars.services.ollama.startOnLogin;
+              KeepAlive = true;
+              StandardOutPath = "/dev/null";
+              StandardErrorPath = "/dev/null";
             };
+          };
         })
       ];
     };

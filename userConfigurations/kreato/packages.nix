@@ -20,6 +20,7 @@
     fastfetch
     bat
     qemu
+    jellyfin-tui
     watch
     k9s
     docker

@@ -3,7 +3,7 @@
   # Basic system settings
   hostName = "akiri";
   userName = "kreato";
-  
+
   # Global time settings
   time = {
     # Choose your system timezone, e.g. "America/Los_Angeles", "Europe/Berlin"
@@ -13,7 +13,7 @@
   # Global security settings
   security = {
     sudo = {
-        touchIdAuth = true;
+      touchIdAuth = true;
     };
   };
 
@@ -28,15 +28,15 @@
       enable = true;
       startOnLogin = true;
     };
-    
+
     colima = {
       enable = true;
       startOnLogin = true;
       options = {
-          memory = "10";
+        memory = "10";
       };
     };
-    
+
     spoofdpi = {
       enable = true;
       enableDoh = true;
@@ -69,15 +69,14 @@
     declarative = true;
   };
 
-
   # Window management tools
   yabai = {
     enable = false;
-    
+
     skhd = {
       enable = false;
     };
-    
+
     sketchybar = {
       enable = false;
     };

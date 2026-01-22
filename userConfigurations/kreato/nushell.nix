@@ -9,7 +9,7 @@
     enable = true;
     shellAliases = {
       cat = "bat";
-      rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#${systemName}";
+      rebuild = "cd ~/.config/nix-darwin ; git pull ; sudo darwin-rebuild switch --flake ~/.config/nix-darwin#${systemName}";
       e = "gh copilot explain";
       r = "gh copilot suggest";
       fastfetch = "hyfetch";
@@ -18,6 +18,7 @@
       kubectl = "kubecolor";
       gc = "git commit";
       gitc = "git commit";
+      pembe-don = "save";
     };
 
     configFile.source = ./nushell/config.nu;
