@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     aria2
     btop
@@ -30,7 +31,6 @@
     lazygit
     cursor-cli
     luarocks
-    opencode
     claude-code
     nixfmt-rfc-style
     hyfetch
