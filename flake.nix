@@ -60,7 +60,7 @@
       # $ darwin-rebuild build --flake .#akiri
       darwinConfigurations.${systemName} = nix-darwin.lib.darwinSystem {
         modules = [
-          mac-app-util.darwinModules.default
+          #mac-app-util.darwinModules.default
           ./hosts/akiri/apps.nix
           ./hosts/akiri/homebrew.nix
           ./hosts/akiri/nix.nix
@@ -70,7 +70,7 @@
           home-manager.darwinModules.home-manager
           {
             home-manager.sharedModules = [
-                mac-app-util.homeManagerModules.default
+                #mac-app-util.homeManagerModules.default
                 nixvim.homeModules.nixvim
             ];
             home-manager.useGlobalPkgs = true;

@@ -24,10 +24,10 @@
       startOnLogin = true;
     };
 
-    autokbisw = {
-      enable = true;
-      startOnLogin = true;
-    };
+    # autokbisw = {
+    #   enable = true;
+    #   startOnLogin = true;
+    # };
 
     colima = {
       enable = true;
