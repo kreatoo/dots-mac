@@ -38,7 +38,7 @@ in
   environment.systemPackages = with pkgs; [
     # CLI (platform-specific or macOS-only)
     spoofdpi
-    autokbisw
+    # autokbisw
     colima
 
     # GUI apps
@@ -59,7 +59,7 @@ in
     mos
     upscayl
     moonlight-qt
-    youtube-music
+    pear-desktop
     #signal-desktop
   ];
 
@@ -67,17 +67,17 @@ in
   launchd = {
     user = {
       agents = lib.mkMerge [
-        (lib.mkIf vars.services.autokbisw.enable {
-          autokbisw = {
-            command = "${pkgs.autokbisw}/bin/autokbisw --verbose";
-            serviceConfig = {
-              RunAtLoad = vars.services.autokbisw.startOnLogin;
-              KeepAlive = true;
-              StandardOutPath = "/tmp/autokbisw.log";
-              StandardErrorPath = "/tmp/autokbisw.log";
-            };
-          };
-        })
+        # (lib.mkIf vars.services.autokbisw.enable {
+        #   autokbisw = {
+        #     command = "${pkgs.autokbisw}/bin/autokbisw --verbose";
+        #     serviceConfig = {
+        #       RunAtLoad = vars.services.autokbisw.startOnLogin;
+        #       KeepAlive = true;
+        #       StandardOutPath = "/tmp/autokbisw.log";
+        #       StandardErrorPath = "/tmp/autokbisw.log";
+        #     };
+        #   };
+        # })
         (lib.mkIf vars.services.colima.enable {
           # Colima (Docker on macOS)
           colima = {

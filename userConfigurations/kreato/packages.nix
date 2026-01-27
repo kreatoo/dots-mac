@@ -21,7 +21,7 @@
     fastfetch
     bat
     qemu
-    jellyfin-tui
+    # jellyfin-tui
     watch
     k9s
     docker
@@ -32,7 +32,7 @@
     cursor-cli
     luarocks
     claude-code
-    nixfmt-rfc-style
+    nixfmt
     hyfetch
     nmap
     talosctl
