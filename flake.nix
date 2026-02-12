@@ -39,6 +39,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixpkgs-2511 = {
+      url = "github:NixOS/nixpkgs/nixos-25.11";
+    };
+
   };
 
   outputs =
@@ -47,18 +51,20 @@
       nix-darwin,
       home-manager,
       nixpkgs,
+      nixpkgs-2511,
       mac-app-util,
       nixvim,
       jovian,
       ...
     }:
     let
-        systemName = "akiri";
+      systemName = "akiri";
     in
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#akiri
       darwinConfigurations.${systemName} = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit nixpkgs-2511; };
         modules = [
           #mac-app-util.darwinModules.default
           ./hosts/akiri/apps.nix
@@ -66,18 +72,18 @@
           ./hosts/akiri/nix.nix
           ./hosts/akiri/system.nix
           ./hosts/akiri/users.nix
-		  ./hosts/akiri/yabai.nix
+          ./hosts/akiri/yabai.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.sharedModules = [
-                #mac-app-util.homeManagerModules.default
-                nixvim.homeModules.nixvim
+              #mac-app-util.homeManagerModules.default
+              nixvim.homeModules.nixvim
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.kreato = import ./userConfigurations/kreato/main.nix;
             home-manager.extraSpecialArgs = {
-                inherit systemName;
+              inherit systemName;
             };
           }
         ];
