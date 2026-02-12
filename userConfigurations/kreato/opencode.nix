@@ -19,6 +19,8 @@ in
       theme = "ayu-dark";
       plugin = [
         "opencode-antigravity-auth@latest"
+        "@slkiser/opencode-quota"
+        "yet-another-opencode-cursor-auth@latest"
       ];
       mcp = {
         context7 = {
@@ -39,6 +41,9 @@ in
         bash = "ask";
       };
       provider = {
+        cursor = {
+            name = "Cursor";
+        };
         google = {
           models = {
             gemini-3-pro-low = {
@@ -210,8 +215,8 @@ in
                 };
               };
             };
-            antigravity-claude-opus-4-5-thinking = {
-              name = "Claude Opus 4.5 Thinking (Antigravity)";
+            antigravity-claude-opus-4-6-thinking = {
+              name = "Claude Opus 4.6 Thinking (Antigravity)";
               limit = {
                 context = 200000;
                 output = 64000;
