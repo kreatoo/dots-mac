@@ -2,10 +2,12 @@
   pkgs,
   lib,
   config,
+  nixpkgs-2511,
   ...
 }:
 let
   vars = import ./options.nix;
+  pkgs-2511 = nixpkgs-2511.legacyPackages.${pkgs.system};
   spoofdpiArgsList =
     (lib.optionals vars.services.spoofdpi.enableDoh [ "-enable-doh" ])
     ++ [ "-window-size ${toString vars.services.spoofdpi.windowSize}" ]
@@ -37,12 +39,12 @@ in
 
   environment.systemPackages = with pkgs; [
     # CLI (platform-specific or macOS-only)
-    spoofdpi
+    pkgs-2511.spoofdpi
     # autokbisw
     colima
 
     # GUI apps
-    google-chrome
+    #google-chrome
     gzdoom
     cyberduck
     scrcpy
@@ -97,7 +99,7 @@ in
         (lib.mkIf vars.services.spoofdpi.enable {
           # SpoofDPI (DPI spoofing)
           spoofdpi = {
-            command = "${pkgs.spoofdpi}/bin/spoofdpi ${spoofdpiArgs}";
+            command = "${pkgs-2511.spoofdpi}/bin/spoofdpi ${spoofdpiArgs}";
             serviceConfig = {
               RunAtLoad = vars.services.spoofdpi.startOnLogin;
               KeepAlive = true;
