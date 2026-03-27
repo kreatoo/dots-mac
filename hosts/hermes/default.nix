@@ -20,5 +20,6 @@ openwrt-imagebuilder.lib.build (
   profiles.identifyProfile "mercusys_mr90x-v1"
   // {
     inherit packages files;
+    release = "snapshot";
   }
 )
