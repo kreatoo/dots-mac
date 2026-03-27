@@ -1,0 +1,11 @@
+[
+  "btop"
+  "https-dns-proxy"
+  "luci-app-https-dns-proxy"
+  "luci-app-attendedsysupgrade"
+  "luci-app-sqm"
+  "luci-app-irqbalance"
+  "luci-ssl"
+  "irqbalance"
+  "sqm-scripts"
+]
