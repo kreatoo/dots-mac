@@ -43,6 +43,9 @@
       url = "github:NixOS/nixpkgs/nixos-25.11";
     };
 
+    openwrt-imagebuilder = {
+      url = "github:astro/nix-openwrt-imagebuilder";
+    };
   };
 
   outputs =
@@ -55,6 +58,7 @@
       mac-app-util,
       nixvim,
       jovian,
+      openwrt-imagebuilder,
       ...
     }:
     let
@@ -102,6 +106,11 @@
             nixpkgs.overlays = [ jovian.overlays.default ];
           }
         ];
+      };
+
+      packages.x86_64-linux.hermes = import ./hosts/hermes {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        inherit openwrt-imagebuilder;
       };
     };
 }
