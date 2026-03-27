@@ -1,0 +1,49 @@
+name: Build Hermes OpenWrt Image
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'hosts/hermes/**'
+      - 'flake.nix'
+      - 'flake.lock'
+      - '.github/workflows/build-hermes.yaml'
+  pull_request:
+    paths:
+      - 'hosts/hermes/**'
+      - 'flake.nix'
+      - 'flake.lock'
+      - '.github/workflows/build-hermes.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build hermes image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v15
+        with:
+          diagnostic-endpoint: ""
+
+      - name: Build hermes image
+        run: nix build .#hermes
+
+      - name: List build output
+        run: ls -la result/
+
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hermes-firmware
+          path: result/
+          retention-days: 30
