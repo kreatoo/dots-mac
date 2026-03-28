@@ -18,9 +18,9 @@ in
     settings = {
       theme = "ayu-dark";
       plugin = [
-        "opencode-antigravity-auth@latest"
-        "@slkiser/opencode-quota"
-        "yet-another-opencode-cursor-auth@latest"
+        "superpowers@git+https://github.com/obra/superpowers.git"
+        "@tarquinen/opencode-dcp@latest"
+        "cc-safety-net"
       ];
       mcp = {
         context7 = {
@@ -36,13 +36,37 @@ in
           url = "https://mcp.exa.ai/mcp";
           enabled = true;
         };
+        megaten_fusion = {
+          type = "local";
+          command = [
+            "bun"
+            "x"
+            "megaten-fusion-mcp"
+          ];
+          enabled = true;
+        };
       };
       permission = {
         bash = "ask";
       };
       provider = {
         cursor = {
-            name = "Cursor";
+          name = "Cursor";
+        };
+        nano-gpt = {
+          models = {
+            "minimax/minimax-m2.7" = {
+              name = "Minimax M2.7";
+              limit = {
+                context = 204800;
+                output = 65536;
+              };
+              modalities = {
+                input = [ "text" ];
+                output = [ "text" ];
+              };
+            };
+          };
         };
         google = {
           models = {
@@ -121,8 +145,8 @@ in
                 output = [ "text" ];
               };
             };
-            antigravity-gemini-3-pro = {
-              name = "Gemini 3 Pro (Antigravity)";
+            "antigravity-gemini-3.1-pro" = {
+              name = "Gemini 3.1 Pro (Antigravity)";
               limit = {
                 context = 1048576;
                 output = 65535;
@@ -173,8 +197,8 @@ in
                 };
               };
             };
-            antigravity-claude-sonnet-4-5 = {
-              name = "Claude Sonnet 4.5 (Antigravity)";
+            antigravity-claude-sonnet-4-6 = {
+              name = "Claude Sonnet 4.6 (Antigravity)";
               limit = {
                 context = 200000;
                 output = 64000;
@@ -186,33 +210,6 @@ in
                   "pdf"
                 ];
                 output = [ "text" ];
-              };
-            };
-            antigravity-claude-sonnet-4-5-thinking = {
-              name = "Claude Sonnet 4.5 Thinking (Antigravity)";
-              limit = {
-                context = 200000;
-                output = 64000;
-              };
-              modalities = {
-                input = [
-                  "text"
-                  "image"
-                  "pdf"
-                ];
-                output = [ "text" ];
-              };
-              variants = {
-                low = {
-                  thinkingConfig = {
-                    thinkingBudget = 8192;
-                  };
-                };
-                max = {
-                  thinkingConfig = {
-                    thinkingBudget = 32768;
-                  };
-                };
               };
             };
             antigravity-claude-opus-4-6-thinking = {
