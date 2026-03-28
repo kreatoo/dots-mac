@@ -4,29 +4,30 @@ in
 {
   homebrew = {
     enable = vars.homebrew.enable;
-    
-	onActivation = {
+
+    onActivation = {
       autoUpdate = vars.homebrew.autoUpdate;
       cleanup = if vars.homebrew.declarative then "uninstall" else "none";
     };
 
     taps = [
-        "PlayCover/playcover"
+      "PlayCover/playcover"
     ];
 
     casks = [
       "1password"
       "blackhole-16ch"
       "balenaetcher"
-	  "sf-symbols"
+      "sf-symbols"
       "imageoptim"
       "discord"
       "garmin-express"
       "tradingview"
-	  "font-sf-mono"
-	  "font-sf-pro"
+      "font-sf-mono"
+      "font-sf-pro"
       "cap"
       "transmission"
+      "antigravity"
       "keyboardcleantool"
       "betterdisplay"
       "iterm2"
@@ -36,13 +37,14 @@ in
       "obs"
       "android-studio"
       "raycast"
-	  "affinity-designer"
-	  "affinity-photo"
+      "affinity-designer"
+      "affinity-photo"
       "synology-drive"
-	  "affinity-publisher"
+      "affinity-publisher"
       "chatwise"
       "vivaldi"
       "playcover-community"
+      "lm-studio"
     ];
   };
 }

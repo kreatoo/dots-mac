@@ -60,6 +60,17 @@
         "siker"
       ];
     };
+
+    lmstudio = {
+      enable = true;
+      startOnLogin = true;
+      port = 5658;
+      bindAddress = "127.0.0.1";
+      modelDir = "~/Models";
+      jitLoading = true;
+      autoUnload = true;
+      idleTimeout = 300;
+    };
   };
 
   # Homebrew toggle

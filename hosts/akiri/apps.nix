@@ -121,6 +121,21 @@ in
             };
           };
         })
+        (lib.mkIf vars.services.lmstudio.enable {
+          # LM Studio headless daemon with API server
+          lmstudio = {
+            command = "/Applications/LM\\ Studio.app/Contents/Resources/app/.webpack/lms daemon up && /Applications/LM\\ Studio.app/Contents/Resources/app/.webpack/lms server start --port ${toString vars.services.lmstudio.port}";
+            serviceConfig = {
+              RunAtLoad = vars.services.lmstudio.startOnLogin;
+              KeepAlive = true;
+              StandardOutPath = "/tmp/lmstudio.log";
+              StandardErrorPath = "/tmp/lmstudio.log";
+              EnvironmentVariables = {
+                LM_STUDIO_MODELS_PATH = vars.services.lmstudio.modelDir;
+              };
+            };
+          };
+        })
       ];
     };
   };
