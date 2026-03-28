@@ -118,6 +118,30 @@
         autoEnableSources = true;
       };
 
+      minuet = {
+        enable = uopts.programs.minuet.enable;
+        settings = {
+          provider = "openai_compatible";
+          request_timeout = 10;
+          throttle = 0;
+          debounce = 300;
+          n_completions = 2;
+          context_window = 1024;
+          add_single_line_entry = true;
+          provider_options.openai_compatible = {
+            end_point = "http://127.0.0.1:5658/v1/chat/completions";
+            api_key = "TERM";
+            name = "LM Studio";
+            model = "qwen3.5-4b";
+            stream = true;
+            optional = {
+              max_tokens = 128;
+              temperature = 0.2;
+            };
+          };
+        };
+      };
+
       treesitter = {
         enable = true;
         settings = {
@@ -178,27 +202,6 @@
 
       mini-icons = {
         enable = true;
-      };
-
-      minuet = {
-        enable = true;
-        settings = {
-          provider = "openai_fim_compatible";
-          n_completions = 1; # Recommended for local models for resource saving
-          context_window = 16000; # Starting point, adjust based on computing power
-          provider_options = {
-            openai_fim_compatible = {
-              api_key = "TERM";
-              name = "Ollama";
-              end_point = "http://localhost:11434/v1/completions";
-              model = "qwen2.5-coder:7b";
-              optional = {
-                max_tokens = 56;
-                top_p = 0.9;
-              };
-            };
-          };
-        };
       };
     };
 
