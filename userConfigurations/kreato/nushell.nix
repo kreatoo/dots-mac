@@ -19,17 +19,19 @@
       gc = "git commit";
       gitc = "git commit";
       pembe-don = "save";
+      t = "terragrunt";
     };
 
     configFile.source = ./nushell/config.nu;
 
     envFile.text = ''
-      for item in ["${config.home.homeDirectory}/.nix-profile/bin" "/etc/profiles/per-user/${config.home.username}/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "${config.home.homeDirectory}/.krew/bin"  "${config.home.homeDirectory}/.local/bin"] {
+      for item in ["${config.home.homeDirectory}/.nix-profile/bin" "/etc/profiles/per-user/${config.home.username}/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/opt/homebrew/bin" "${config.home.homeDirectory}/.krew/bin"  "${config.home.homeDirectory}/.local/bin", "${config.home.homeDirectory}/.bun/bin"] {
           $env.Path = ($env.Path | append $item)
       }
 
       $env.config.buffer_editor = "nvim"
       $env.config.show_banner = false
+      $env.CLOTHER_BIN = "/Users/kreato/.local/bin/"
     '';
   };
 
