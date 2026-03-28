@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    (google-cloud-sdk.withExtraComponents [
+      google-cloud-sdk.components.gke-gcloud-auth-plugin
+    ])
     aria2
     btop
     uv
@@ -11,9 +14,11 @@
     nimble
     yt-dlp
     ffmpeg
-    #ollama
+    terragrunt
+    kubernetes-helm
     android-tools
     just
+    cloudflared
     bun
     imagemagick
     tree
@@ -21,10 +26,11 @@
     fastfetch
     bat
     qemu
-    # jellyfin-tui
+    jellyfin-tui
     watch
     k9s
     docker
+    ghidra-bin
     fd
     nodejs
     fzf
