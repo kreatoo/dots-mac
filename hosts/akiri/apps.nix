@@ -56,6 +56,7 @@ in
     iina
     utm
     rectangle
+    cinny-desktop
     #soundsource
     the-unarchiver
     mos
