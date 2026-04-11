@@ -19,6 +19,7 @@ in
       "blackhole-16ch"
       "balenaetcher"
       "sf-symbols"
+      "stats"
       "imageoptim"
       "discord"
       "garmin-express"

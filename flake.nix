@@ -99,6 +99,12 @@
         system = "x86_64-linux";
         modules = [
           jovian.nixosModules.jovian
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kreato = import ./userConfigurations/ludus/kreato/main.nix;
+          }
           ./hosts/ludus/system.nix
           ./hosts/ludus/users.nix
           ./hosts/ludus/jovian.nix
