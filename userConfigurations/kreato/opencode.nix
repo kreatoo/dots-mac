@@ -15,8 +15,10 @@ in
     enable = uopts.programs.opencode.enable;
     enableMcpIntegration = true;
     package = pkgs.opencode;
-    settings = {
+    tui = {
       theme = "ayu-dark";
+    };
+    settings = {
       plugin = [
         "superpowers@git+https://github.com/obra/superpowers.git"
         "@tarquinen/opencode-dcp@latest"
