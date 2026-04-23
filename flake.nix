@@ -71,6 +71,7 @@
         specialArgs = { inherit nixpkgs-2511; };
         modules = [
           #mac-app-util.darwinModules.default
+          ./hosts/akiri/modules.nix
           ./hosts/akiri/apps.nix
           ./hosts/akiri/homebrew.nix
           ./hosts/akiri/nix.nix
@@ -88,6 +89,30 @@
             home-manager.users.kreato = import ./userConfigurations/kreato/main.nix;
             home-manager.extraSpecialArgs = {
               inherit systemName;
+            };
+          }
+        ];
+      };
+
+      darwinConfigurations.work = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit nixpkgs-2511; };
+        modules = [
+          ./hosts/work/modules.nix
+          ./hosts/work/apps.nix
+          ./hosts/work/homebrew.nix
+          ./hosts/work/nix.nix
+          ./hosts/work/system.nix
+          ./hosts/work/users.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.sharedModules = [
+              nixvim.homeModules.nixvim
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kreato = import ./userConfigurations/kreato/main.nix;
+            home-manager.extraSpecialArgs = {
+              systemName = "work";
             };
           }
         ];

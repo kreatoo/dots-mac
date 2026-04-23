@@ -1,0 +1,4 @@
+{ ... }:
+{
+  launchd.user.agents = { };
+}

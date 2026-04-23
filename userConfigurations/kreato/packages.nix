@@ -45,7 +45,6 @@
     opentofu
     kubecolor
     kubectl
-    slack
     kubectl-klock
     inetutils
     procps

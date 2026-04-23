@@ -2,17 +2,9 @@
   pkgs,
   lib,
   config,
-  nixpkgs-2511,
   ...
 }:
 let
-  vars = import ./options.nix;
-  pkgs-2511 = nixpkgs-2511.legacyPackages.${pkgs.system};
-  spoofdpiArgsList =
-    (lib.optionals vars.services.spoofdpi.enableDoh [ "-enable-doh" ])
-    ++ [ "-window-size ${toString vars.services.spoofdpi.windowSize}" ]
-    ++ (map (p: "-pattern '\\b${p}\\b'") vars.services.spoofdpi.patterns);
-  spoofdpiArgs = lib.concatStringsSep " " spoofdpiArgsList;
   scientifica-nerd = pkgs.scientifica.overrideAttrs (o: {
     nativeBuildInputs = (o.nativeBuildInputs or [ ]) ++ [ pkgs.nerd-font-patcher ];
     postInstall = (o.postInstall or "") + ''
@@ -35,108 +27,5 @@ in
 
   environment.variables = {
     ROSETTA_ADVERTISE_AVX = "1";
-  };
-
-  environment.systemPackages = with pkgs; [
-    # CLI (platform-specific or macOS-only)
-    pkgs-2511.spoofdpi
-    # autokbisw
-    colima
-
-    # GUI apps
-    #google-chrome
-    gzdoom
-    cyberduck
-    scrcpy
-    localsend
-    prismlauncher
-    alt-tab-macos
-    audacity
-    #ice-bar
-    iina
-    utm
-    rectangle
-    cinny-desktop
-    #soundsource
-    the-unarchiver
-    mos
-    upscayl
-    moonlight-qt
-    pear-desktop
-    #signal-desktop
-  ];
-
-  # Launchd
-  launchd = {
-    user = {
-      agents = lib.mkMerge [
-        # (lib.mkIf vars.services.autokbisw.enable {
-        #   autokbisw = {
-        #     command = "${pkgs.autokbisw}/bin/autokbisw --verbose";
-        #     serviceConfig = {
-        #       RunAtLoad = vars.services.autokbisw.startOnLogin;
-        #       KeepAlive = true;
-        #       StandardOutPath = "/tmp/autokbisw.log";
-        #       StandardErrorPath = "/tmp/autokbisw.log";
-        #     };
-        #   };
-        # })
-        (lib.mkIf vars.services.colima.enable {
-          # Colima (Docker on macOS)
-          colima = {
-            command = "${pkgs.colima}/bin/colima start --memory ${vars.services.colima.options.memory} --foreground";
-            serviceConfig = {
-              Label = "com.colima.default";
-              RunAtLoad = vars.services.colima.startOnLogin;
-              KeepAlive = true;
-              StandardOutPath = "/dev/null";
-              StandardErrorPath = "/dev/null";
-              EnvironmentVariables = {
-                PATH = "${pkgs.colima}/bin:${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-              };
-            };
-          };
-        })
-        (lib.mkIf vars.services.spoofdpi.enable {
-          # SpoofDPI (DPI spoofing)
-          spoofdpi = {
-            command = "${pkgs-2511.spoofdpi}/bin/spoofdpi ${spoofdpiArgs}";
-            serviceConfig = {
-              RunAtLoad = vars.services.spoofdpi.startOnLogin;
-              KeepAlive = true;
-              StandardOutPath = "/dev/null";
-              StandardErrorPath = "/dev/null";
-            };
-          };
-        })
-        (lib.mkIf vars.services.ollama.enable {
-          # Ollama (Running LLMs)
-          ollama = {
-            command = "${pkgs.ollama}/bin/ollama serve";
-            serviceConfig = {
-              RunAtLoad = vars.services.ollama.startOnLogin;
-              KeepAlive = true;
-              StandardOutPath = "/dev/null";
-              StandardErrorPath = "/dev/null";
-            };
-          };
-        })
-        (lib.mkIf vars.services.lmstudio.enable {
-          # LM Studio headless daemon with API server
-          lmstudio = {
-            command = "/Applications/LM\\ Studio.app/Contents/Resources/app/.webpack/lms daemon up && /Applications/LM\\ Studio.app/Contents/Resources/app/.webpack/lms server start --port ${toString vars.services.lmstudio.port}";
-            serviceConfig = {
-              RunAtLoad = vars.services.lmstudio.startOnLogin;
-              KeepAlive = true;
-              StandardOutPath = "/tmp/lmstudio.log";
-              StandardErrorPath = "/tmp/lmstudio.log";
-              EnvironmentVariables = {
-                LM_STUDIO_MODELS_PATH = vars.services.lmstudio.modelDir;
-              };
-            };
-          };
-        })
-      ];
-    };
   };
 }

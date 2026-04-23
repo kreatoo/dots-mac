@@ -10,8 +10,6 @@ in
       cleanup = if vars.homebrew.declarative then "uninstall" else "none";
     };
 
-    taps = [
-      "PlayCover/playcover"
-    ];
+    taps = [ ];
   };
 }
