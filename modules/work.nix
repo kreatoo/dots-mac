@@ -1,12 +1,11 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    slack
-  ];
-
   homebrew.casks = [
     "google-chrome"
+    "slack"
     "microsoft-teams"
-    "balenaetcher"
+    "openvpn-connect"
+    "1password"
+    "shottr"
   ];
 }

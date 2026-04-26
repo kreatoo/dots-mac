@@ -10,15 +10,10 @@
     eza
     gh
     go
-    nim
-    nimble
-    yt-dlp
     ffmpeg
     terragrunt
     kubernetes-helm
-    android-tools
     just
-    cloudflared
     bun
     imagemagick
     tree
@@ -26,18 +21,13 @@
     fastfetch
     bat
     qemu
-    jellyfin-tui
     watch
     k9s
     docker
-    ghidra-bin
     fd
-    nodejs
     fzf
     lazygit
-    cursor-cli
     luarocks
-    claude-code
     nixfmt
     hyfetch
     nmap
