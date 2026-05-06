@@ -18,6 +18,7 @@
       k = "kubecolor";
       ksh = "kubectl run --image fedora:latest --rm -ti -- bash";
       kubectl = "kubecolor";
+      rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#work";
       clean-gc = "nix-collect-garbage --delete-old && sudo nix-collect-garbage --delete-old";
     };
     initContent = ''
