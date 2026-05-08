@@ -38,15 +38,6 @@ in
           url = "https://mcp.exa.ai/mcp";
           enabled = true;
         };
-        megaten_fusion = {
-          type = "local";
-          command = [
-            "bun"
-            "x"
-            "megaten-fusion-mcp"
-          ];
-          enabled = true;
-        };
       };
       permission = {
         bash = "ask";
