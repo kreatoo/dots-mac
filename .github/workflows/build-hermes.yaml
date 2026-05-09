@@ -49,6 +49,7 @@ jobs:
           retention-days: 30
 
       - name: Generate Hermes metadata artifacts
+        id: metadata
         shell: bash
         run: |
           set -euo pipefail
@@ -80,12 +81,38 @@ jobs:
           firmware_sha256="$(sha256sum "$firmware_path" | awk '{print $1}')"
           build_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-          openwrt_version="snapshot"
+          openwrt_version="$(python3 - "$firmware_name" <<'PY'
+import re
+import sys
+
+name = sys.argv[1]
+match = re.match(r"^openwrt-([^-]+)-", name)
+print(match.group(1) if match else "snapshot")
+PY
+)"
           version_code="${openwrt_version}-${GITHUB_SHA::7}"
+          openwrt_input_hash="$(python3 - <<'PY'
+import json
+
+with open("flake.lock", "r", encoding="utf-8") as fh:
+    data = json.load(fh)
+
+nar_hash = data["nodes"]["openwrt-imagebuilder"]["locked"]["narHash"]
+print(nar_hash.replace("sha256-", "").replace("+", "-").replace("/", "_").rstrip("="))
+PY
+)"
           target="qualcommax/ipq807x"
           profile="hermes"
           supported_devices='["mercusys,mr90x-v1"]'
           public_base_url="https://github.com/kreatoo/dots-mac/releases/latest/download"
+
+          release_tag="hermes-${openwrt_version}-${openwrt_input_hash}"
+          release_name="Hermes build ${openwrt_version} (${openwrt_input_hash})"
+          {
+            echo "openwrt_version=${openwrt_version}"
+            echo "release_tag=${release_tag}"
+            echo "release_name=${release_name}"
+          } >> "$GITHUB_OUTPUT"
 
           metadata_root="dist/metadata"
           asu_root="${metadata_root}/json/v1"
@@ -128,7 +155,7 @@ jobs:
           mkdir -p release-assets
           cp dist/metadata/hermes-latest.json release-assets/hermes-latest.json
           cp dist/metadata/json/v1/overview.json release-assets/overview.json
-          cp dist/metadata/json/v1/releases/snapshot/targets/qualcommax/ipq807x/hermes.json release-assets/hermes-profile.json
+          cp "dist/metadata/json/v1/releases/${{ steps.metadata.outputs.openwrt_version }}/targets/qualcommax/ipq807x/hermes.json" release-assets/hermes-profile.json
           cp dist/metadata/releases/${GITHUB_SHA}/firmware/*.bin release-assets/
           cp dist/metadata/releases/${GITHUB_SHA}/firmware/sha256sums.txt release-assets/
 
@@ -136,8 +163,8 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: hermes-${{ github.sha }}
-          name: Hermes build ${{ github.sha }}
+          tag_name: ${{ steps.metadata.outputs.release_tag }}
+          name: ${{ steps.metadata.outputs.release_name }}
           make_latest: true
           generate_release_notes: true
           files: |
