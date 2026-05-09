@@ -53,12 +53,23 @@ jobs:
         run: |
           set -euo pipefail
 
-          mapfile -t sysupgrade_candidates < <(find result -type f -name '*sysupgrade*.bin' | LC_ALL=C sort)
+          echo "=== Result tree (files) ==="
+          find -L result -type f | LC_ALL=C sort
+
+          mapfile -t sysupgrade_candidates < <(find -L result -type f -name '*sysupgrade*.bin' | LC_ALL=C sort)
           firmware_path="${sysupgrade_candidates[0]:-}"
 
           if [ -z "$firmware_path" ]; then
-            mapfile -t firmware_candidates < <(find result -type f -name '*.bin' | LC_ALL=C sort)
+            mapfile -t sysupgrade_any_ext < <(find -L result -type f -name '*sysupgrade*' ! -name '*.sha256' ! -name '*.json' ! -name '*.txt' | LC_ALL=C sort)
+            firmware_path="${sysupgrade_any_ext[0]:-}"
+          fi
+          if [ -z "$firmware_path" ]; then
+            mapfile -t firmware_candidates < <(find -L result -type f -name '*.bin' | LC_ALL=C sort)
             firmware_path="${firmware_candidates[0]:-}"
+          fi
+          if [ -z "$firmware_path" ]; then
+            mapfile -t firmware_like_candidates < <(find -L result -type f \( -name '*factory*' -o -name '*squashfs*' -o -name '*.itb' -o -name '*.img' -o -name '*.img.gz' -o -name '*.ubi' -o -name '*.trx' \) ! -name '*.sha256' ! -name '*.json' ! -name '*.txt' | LC_ALL=C sort)
+            firmware_path="${firmware_like_candidates[0]:-}"
           fi
           if [ -z "$firmware_path" ]; then
             echo "No firmware binary found under result/"
