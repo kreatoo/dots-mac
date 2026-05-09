@@ -142,8 +142,25 @@ jobs:
           cp dist/metadata/releases/${GITHUB_SHA}/firmware/*.bin release-assets/
           cp dist/metadata/releases/${GITHUB_SHA}/firmware/sha256sums.txt release-assets/
 
-      - name: Publish GitHub Release assets
+      - name: Check if release tag already exists
         if: github.event_name != 'pull_request'
+        id: release_check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${{ steps.metadata.outputs.release_tag }}"
+
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release $tag already exists; skipping publish step."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish GitHub Release assets
+        if: github.event_name != 'pull_request' && steps.release_check.outputs.exists == 'false'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.metadata.outputs.release_tag }}
