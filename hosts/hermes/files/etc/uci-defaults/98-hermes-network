@@ -1,0 +1,19 @@
+#!/bin/sh
+# Hermes network config: disable auto IPv6 on PPPoE wan to prevent wan_6 conflict,
+# and use explicit wan6 DHCPv6 interface for native IPv6.
+
+uci -q batch <<'EOF'
+set network.wan.ipv6='0'
+
+set network.wan6=interface
+set network.wan6.device='@wan'
+set network.wan6.proto='dhcpv6'
+set network.wan6.reqaddress='try'
+set network.wan6.reqprefix='auto'
+set network.wan6.force_link='1'
+set network.wan6.norelease='1'
+
+commit network
+EOF
+
+exit 0

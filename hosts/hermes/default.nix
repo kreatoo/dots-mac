@@ -18,6 +18,7 @@ let
     EOF
     chmod 600 $out/etc/dropbear/authorized_keys
     chmod +x $out/usr/libexec/hermes-pppoe-recovery
+    chmod +x $out/etc/uci-defaults/98-hermes-network
     chmod +x $out/etc/uci-defaults/99-hermes-pppoe-recovery
   '';
 

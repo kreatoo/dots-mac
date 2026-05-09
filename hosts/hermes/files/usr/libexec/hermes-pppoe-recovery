@@ -17,7 +17,11 @@ timestamp() {
 
 log() {
   msg="$1"
-  printf '%s %s\n' "$(timestamp)" "$msg" >> "$LOG_FILE"
+  line="$(timestamp) $msg"
+  printf '%s\n' "$line" >> "$LOG_FILE"
+  if [ -t 1 ] || [ "${HERMES_PPPOE_VERBOSE:-0}" = "1" ]; then
+    printf '%s\n' "$line" >&2
+  fi
   logger -t "$LOG_TAG" "$msg" >/dev/null 2>&1 || true
 }
 
