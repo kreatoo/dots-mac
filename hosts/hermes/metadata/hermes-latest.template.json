@@ -1,7 +1,7 @@
 {
   "openwrt_version": "snapshot",
   "version_code": "snapshot",
-  "target": "qualcommax/ipq807x",
+  "target": "mediatek/filogic",
   "profile": "hermes",
   "supported_devices": [
     "mercusys,mr90x-v1"

@@ -1,6 +1,6 @@
 {
   "id": "hermes",
-  "target": "qualcommax/ipq807x",
+  "target": "mediatek/filogic",
   "version_code": "snapshot",
   "supported_devices": [
     "mercusys,mr90x-v1"

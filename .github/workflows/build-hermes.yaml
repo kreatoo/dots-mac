@@ -84,7 +84,7 @@ jobs:
           openwrt_version="$(python3 -c 'import re,sys; m=re.match(r"^openwrt-([^-]+)-", sys.argv[1]); print(m.group(1) if m else "snapshot")' "$firmware_name")"
           version_code="${openwrt_version}-${GITHUB_SHA::7}"
           openwrt_input_hash="$(python3 -c 'import json; d=json.load(open("flake.lock", encoding="utf-8")); h=d["nodes"]["openwrt-imagebuilder"]["locked"]["narHash"]; print(h.replace("sha256-", "").replace("+", "-").replace("/", "_").rstrip("="))')"
-          target="qualcommax/ipq807x"
+          target="mediatek/filogic"
           profile="hermes"
           supported_devices='["mercusys,mr90x-v1"]'
           public_base_url="https://github.com/kreatoo/dots-mac/releases/latest/download"
@@ -138,7 +138,7 @@ jobs:
           mkdir -p release-assets
           cp dist/metadata/hermes-latest.json release-assets/hermes-latest.json
           cp dist/metadata/json/v1/overview.json release-assets/overview.json
-          cp "dist/metadata/json/v1/releases/${{ steps.metadata.outputs.openwrt_version }}/targets/qualcommax/ipq807x/hermes.json" release-assets/hermes-profile.json
+          cp "dist/metadata/json/v1/releases/${{ steps.metadata.outputs.openwrt_version }}/targets/mediatek/filogic/hermes.json" release-assets/hermes-profile.json
           cp dist/metadata/releases/${GITHUB_SHA}/firmware/*.bin release-assets/
           cp dist/metadata/releases/${GITHUB_SHA}/firmware/sha256sums.txt release-assets/
 
