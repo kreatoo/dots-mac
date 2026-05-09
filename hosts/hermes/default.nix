@@ -10,6 +10,7 @@ let
   files = pkgs.runCommand "hermes-files" { } ''
     mkdir -p $out
     cp -r ${./files}/. $out/
+    chmod -R u+w $out
 
     mkdir -p $out/etc/dropbear
     cat > $out/etc/dropbear/authorized_keys <<'EOF'
