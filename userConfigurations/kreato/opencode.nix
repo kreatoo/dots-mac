@@ -68,6 +68,17 @@ in
                 output = [ "text" ];
               };
             };
+            "deepseek/deepseek-v4-pro-cheaper:thinking" = {
+              name = "DeepSeek V4 Pro Cheaper (Thinking)";
+              limit = {
+                context = 1000000;
+                output = 384000;
+              };
+              modalities = {
+                input = [ "text" ];
+                output = [ "text" ];
+              };
+            };
           };
         };
         google = {

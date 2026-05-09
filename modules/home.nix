@@ -9,7 +9,7 @@ in
       gzdoom
       scrcpy
       localsend
-      prismlauncher
+      #prismlauncher
       cinny-desktop
       upscayl
       moonlight-qt
@@ -25,6 +25,7 @@ in
     "discord"
     "transmission"
     "antigravity"
+    "mullvad-vpn"
     "lm-studio"
     "playcover-community"
     "vivaldi"
