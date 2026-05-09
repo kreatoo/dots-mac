@@ -81,26 +81,9 @@ jobs:
           firmware_sha256="$(sha256sum "$firmware_path" | awk '{print $1}')"
           build_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-          openwrt_version="$(python3 - "$firmware_name" <<'PY'
-import re
-import sys
-
-name = sys.argv[1]
-match = re.match(r"^openwrt-([^-]+)-", name)
-print(match.group(1) if match else "snapshot")
-PY
-)"
+          openwrt_version="$(python3 -c 'import re,sys; m=re.match(r"^openwrt-([^-]+)-", sys.argv[1]); print(m.group(1) if m else "snapshot")' "$firmware_name")"
           version_code="${openwrt_version}-${GITHUB_SHA::7}"
-          openwrt_input_hash="$(python3 - <<'PY'
-import json
-
-with open("flake.lock", "r", encoding="utf-8") as fh:
-    data = json.load(fh)
-
-nar_hash = data["nodes"]["openwrt-imagebuilder"]["locked"]["narHash"]
-print(nar_hash.replace("sha256-", "").replace("+", "-").replace("/", "_").rstrip("="))
-PY
-)"
+          openwrt_input_hash="$(python3 -c 'import json; d=json.load(open("flake.lock", encoding="utf-8")); h=d["nodes"]["openwrt-imagebuilder"]["locked"]["narHash"]; print(h.replace("sha256-", "").replace("+", "-").replace("/", "_").rstrip("="))')"
           target="qualcommax/ipq807x"
           profile="hermes"
           supported_devices='["mercusys,mr90x-v1"]'
