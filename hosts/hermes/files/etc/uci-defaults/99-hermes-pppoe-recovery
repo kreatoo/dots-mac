@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+RECOVERY_SCRIPT="/usr/libexec/hermes-pppoe-recovery"
+LOG_TAG="hermes-pppoe-recovery"
+
+if [ ! -x "$RECOVERY_SCRIPT" ]; then
+  logger -t "$LOG_TAG" "missing recovery script: $RECOVERY_SCRIPT"
+  exit 0
+fi
+
+"$RECOVERY_SCRIPT" >/tmp/hermes-pppoe-recovery-firstboot.log 2>&1 || true
+
+exit 0

@@ -1,0 +1,8 @@
+{
+  "versions": [
+    "snapshot"
+  ],
+  "default_version": "snapshot",
+  "profiles_api": "/json/v1/releases/{version}/targets/{target}/{profile}.json",
+  "build_api": "/api/v1/build"
+}

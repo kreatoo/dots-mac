@@ -1,0 +1,121 @@
+#!/bin/sh
+set -eu
+
+LOG_TAG="hermes-pppoe-recovery"
+LOG_FILE="${HERMES_PPPOE_RECOVERY_LOG_FILE:-/tmp/hermes-pppoe-recovery.log}"
+READY_TIMEOUT="${HERMES_PPPOE_READY_TIMEOUT:-30}"
+TOTAL_TIMEOUT="${HERMES_PPPOE_TOTAL_TIMEOUT:-180}"
+BACKOFF_INITIAL="${HERMES_PPPOE_BACKOFF_INITIAL:-5}"
+BACKOFF_MAX="${HERMES_PPPOE_BACKOFF_MAX:-30}"
+WAN_IFACE="${HERMES_WAN_IFACE:-wan}"
+NETWORK_RESTART_CMD="${HERMES_NETWORK_RESTART_CMD:-/etc/init.d/network restart}"
+STATE_FILE="${HERMES_PPPOE_STATE_FILE:-/etc/hermes/pppoe-recovery.done}"
+
+timestamp() {
+  date '+%Y-%m-%dT%H:%M:%S%z'
+}
+
+log() {
+  msg="$1"
+  printf '%s %s\n' "$(timestamp)" "$msg" >> "$LOG_FILE"
+  logger -t "$LOG_TAG" "$msg" >/dev/null 2>&1 || true
+}
+
+wan_status() {
+  ubus call "network.interface.$WAN_IFACE" status 2>/dev/null || true
+}
+
+wan_is_up() {
+  status="$1"
+  printf '%s' "$status" | grep -Eq '"up"[[:space:]]*:[[:space:]]*true'
+}
+
+wan_auth_failed() {
+  status="$1"
+  printf '%s' "$status" | grep -Eqi 'auth[-_ ]?failed|AUTH_FAILED'
+}
+
+wait_for_netifd() {
+  waited=0
+  while [ "$waited" -lt "$READY_TIMEOUT" ]; do
+    if ubus call "network.interface.$WAN_IFACE" status >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 1
+    waited=$((waited + 1))
+  done
+  return 1
+}
+
+run_network_restart() {
+  sh -c "$NETWORK_RESTART_CMD"
+}
+
+mkdir -p "$(dirname "$LOG_FILE")"
+log "starting recovery for interface=$WAN_IFACE"
+
+if ! wait_for_netifd; then
+  log "netifd not ready within ${READY_TIMEOUT}s"
+  exit 1
+fi
+
+start_epoch=$(date +%s)
+deadline=$((start_epoch + TOTAL_TIMEOUT))
+attempt=1
+backoff="$BACKOFF_INITIAL"
+
+while :; do
+  now=$(date +%s)
+  if [ "$now" -ge "$deadline" ]; then
+    log "timed out after ${TOTAL_TIMEOUT}s without WAN recovery"
+    exit 1
+  fi
+
+  status=$(wan_status)
+  if wan_is_up "$status"; then
+    mkdir -p "$(dirname "$STATE_FILE")"
+    : > "$STATE_FILE"
+    log "success: WAN is up on attempt $attempt"
+    exit 0
+  fi
+
+  if wan_auth_failed "$status"; then
+    log "detected auth-failed state on attempt $attempt"
+  else
+    log "WAN still down on attempt $attempt"
+  fi
+
+  log "attempt $attempt: restarting network service"
+  if ! run_network_restart; then
+    log "network restart command failed"
+  fi
+
+  post_restart_status=$(wan_status)
+  if wan_is_up "$post_restart_status"; then
+    mkdir -p "$(dirname "$STATE_FILE")"
+    : > "$STATE_FILE"
+    log "success after network restart on attempt $attempt"
+    exit 0
+  fi
+
+  if wan_auth_failed "$post_restart_status"; then
+    log "auth-failed persists; bouncing interface $WAN_IFACE"
+  else
+    log "bouncing interface $WAN_IFACE"
+  fi
+
+  ifdown "$WAN_IFACE" >/dev/null 2>&1 || true
+  sleep 1
+  ifup "$WAN_IFACE" >/dev/null 2>&1 || true
+
+  sleep "$backoff"
+  if [ "$backoff" -lt "$BACKOFF_MAX" ]; then
+    next_backoff=$((backoff * 2))
+    if [ "$next_backoff" -gt "$BACKOFF_MAX" ]; then
+      backoff="$BACKOFF_MAX"
+    else
+      backoff="$next_backoff"
+    fi
+  fi
+  attempt=$((attempt + 1))
+done

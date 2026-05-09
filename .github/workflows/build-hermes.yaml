@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -47,3 +47,91 @@ jobs:
           name: hermes-firmware
           path: result/
           retention-days: 30
+
+      - name: Generate Hermes metadata artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mapfile -t sysupgrade_candidates < <(find result -type f -name '*sysupgrade*.bin' | LC_ALL=C sort)
+          firmware_path="${sysupgrade_candidates[0]:-}"
+
+          if [ -z "$firmware_path" ]; then
+            mapfile -t firmware_candidates < <(find result -type f -name '*.bin' | LC_ALL=C sort)
+            firmware_path="${firmware_candidates[0]:-}"
+          fi
+          if [ -z "$firmware_path" ]; then
+            echo "No firmware binary found under result/"
+            exit 1
+          fi
+
+          firmware_name="$(basename "$firmware_path")"
+          firmware_sha256="$(sha256sum "$firmware_path" | awk '{print $1}')"
+          build_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          openwrt_version="snapshot"
+          version_code="${openwrt_version}-${GITHUB_SHA::7}"
+          target="qualcommax/ipq807x"
+          profile="hermes"
+          supported_devices='["mercusys,mr90x-v1"]'
+          public_base_url="https://github.com/kreatoo/dots-mac/releases/latest/download"
+
+          metadata_root="dist/metadata"
+          asu_root="${metadata_root}/json/v1"
+          release_root="${asu_root}/releases/${openwrt_version}/targets/${target}"
+          firmware_root="${metadata_root}/releases/${GITHUB_SHA}/firmware"
+
+          mkdir -p "$release_root" "$firmware_root"
+
+          cp "$firmware_path" "${firmware_root}/${firmware_name}"
+          cp "hosts/hermes/metadata/overview.json" "${asu_root}/overview.json"
+
+          OPENWRT_VERSION="$openwrt_version" \
+          VERSION_CODE="$version_code" \
+          TARGET="$target" \
+          PROFILE="$profile" \
+          SUPPORTED_DEVICES="$supported_devices" \
+          FIRMWARE_NAME="$firmware_name" \
+          FIRMWARE_SHA256="$firmware_sha256" \
+          BUILD_AT="$build_at" \
+          PUBLIC_BASE_URL="$public_base_url" \
+          python3 hosts/hermes/metadata/generate_metadata.py
+      - name: Generate firmware checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd "dist/metadata/releases/${GITHUB_SHA}/firmware" && sha256sum *.bin > sha256sums.txt)
+
+      - name: Upload metadata artifact bundle
+        uses: actions/upload-artifact@v7
+        with:
+          name: hermes-metadata
+          path: dist/metadata/
+          retention-days: 30
+
+      - name: Prepare release assets
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          cp dist/metadata/hermes-latest.json release-assets/hermes-latest.json
+          cp dist/metadata/json/v1/overview.json release-assets/overview.json
+          cp dist/metadata/json/v1/releases/snapshot/targets/qualcommax/ipq807x/hermes.json release-assets/hermes-profile.json
+          cp dist/metadata/releases/${GITHUB_SHA}/firmware/*.bin release-assets/
+          cp dist/metadata/releases/${GITHUB_SHA}/firmware/sha256sums.txt release-assets/
+
+      - name: Publish GitHub Release assets
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: hermes-${{ github.sha }}
+          name: Hermes build ${{ github.sha }}
+          make_latest: true
+          generate_release_notes: true
+          files: |
+            release-assets/hermes-latest.json
+            release-assets/overview.json
+            release-assets/hermes-profile.json
+            release-assets/*.bin
+            release-assets/sha256sums.txt

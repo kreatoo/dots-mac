@@ -1,0 +1,15 @@
+{
+  "openwrt_version": "snapshot",
+  "version_code": "snapshot",
+  "target": "qualcommax/ipq807x",
+  "profile": "hermes",
+  "supported_devices": [
+    "mercusys,mr90x-v1"
+  ],
+  "sysupgrade_name": "",
+  "sysupgrade_url": "",
+  "sha256": "",
+  "manifest": {},
+  "build_at": "",
+  "release_id": ""
+}

@@ -1,0 +1,9 @@
+name = "hermes-asu"
+main = "src/index.ts"
+compatibility_date = "2026-05-09"
+workers_dev = true
+preview_urls = false
+
+[vars]
+HERMES_METADATA_URL = "https://github.com/kreatoo/dots-mac/releases/latest/download/hermes-latest.json"
+HERMES_CACHE_TTL_SECONDS = "300"

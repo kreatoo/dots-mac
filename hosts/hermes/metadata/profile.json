@@ -1,0 +1,17 @@
+{
+  "id": "hermes",
+  "target": "qualcommax/ipq807x",
+  "version_code": "snapshot",
+  "supported_devices": [
+    "mercusys,mr90x-v1"
+  ],
+  "images": [
+    {
+      "type": "sysupgrade",
+      "name": "openwrt-hermes-sysupgrade.bin",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "filesystem": "squashfs",
+      "url": "https://github.com/kreatoo/dots-mac/releases/latest/download/openwrt-hermes-sysupgrade.bin"
+    }
+  ]
+}

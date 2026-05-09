@@ -1,0 +1,13 @@
+.DS_Store
+
+# OpenWrt/Nix build outputs
+result
+
+# Worker local artifacts
+workers/hermes-asu/node_modules/
+workers/hermes-asu/.wrangler/
+workers/hermes-asu/dist/
+
+# CI/local metadata staging artifacts
+dist/
+release-assets/
