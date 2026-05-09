@@ -18,7 +18,7 @@ def main() -> None:
     commit_sha = os.environ["GITHUB_SHA"]
     public_base_url = os.environ["PUBLIC_BASE_URL"].rstrip("/")
 
-    firmware_url = f"{public_base_url}/releases/{commit_sha}/firmware/{firmware_name}"
+    firmware_url = f"{public_base_url}/{firmware_name}"
 
     canonical = {
         **template,
