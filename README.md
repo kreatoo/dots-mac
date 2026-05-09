@@ -2,38 +2,38 @@
   <img src="https://raw.githubusercontent.com/yunfachi/NixOwOS/master/assets/nixowos-snowflake-colours.svg" width="250px" alt="NixOwOS logo">
 </p>
 
-## my macOS dotfiles with nix-darwin + home-manager
+## declarative systems with Nix
 
-Declarative macOS setup for Apple Silicon using `nix-darwin` and `home-manager`, packaged as a flake.
-The current host is `akiri` for user `kreato`.
+This repository contains declarative configurations for macOS (via `nix-darwin` + `home-manager`) and OpenWrt routers (via `openwrt-imagebuilder`), packaged as a Nix flake.
 
 ### Highlights
+- **macOS**: Apple Silicon setup with `nix-darwin`, `home-manager`, and `nixvim`.
 - **Shells**: Zsh and Nushell with Starship; handy aliases; optional "work profile" gating via `WORK_PROFILE`.
 - **Editor**: Neovim via `nixvim` (Catppuccin theme, Treesitter, LSP completion, lualine, nvim-tree, dashboard). Optional Neovide GUI.
-- **Launch agents**: Autokbisw (Keyboard language switcher), Colima (Docker on macOS), SpoofDPI (with DoH and patterns); all toggleable.
-- **Window management**: Yabai + skhd + sketchybar wiring available (disabled by default). More coming soon.
-- **System tweaks**: Touch ID for sudo, Rosetta AVX advertise, curated fonts (JetBrains Mono Nerd Font, Hack Nerd Font, Curie), timezone from options.
+- **macOS services**: Autokbisw (keyboard language switcher), Colima (Docker on macOS), SpoofDPI (with DoH and patterns); all toggleable.
+- **Window management**: Yabai + skhd + sketchybar wiring available (disabled by default).
+- **OpenWrt router**: Hermes image for Mercusys MR90X v1 with automated upgrades via `luci-app-attendedsysupgrade`.
+- **PPPoE recovery**: Automatic WAN recovery after sysupgrade when PPPoE auth fails.
+- **ASU Worker**: Cloudflare Worker that emulates the OpenWrt ASU API, serving prebuilt firmware metadata from GitHub Releases.
+- **System tweaks**: Touch ID for sudo, Rosetta AVX advertise, curated fonts, timezone from options.
 
 ### Repository layout
-| Path | Purpose |
-| - | - |
-| [`flake.nix`](flake.nix) | Inputs (`nixpkgs-unstable`, `nix-darwin`, `home-manager`, `nixvim`, `treefmt-nix`, `mac-app-util`) and `darwinConfigurations.akiri` module stack. |
-| [`hosts/akiri/options.nix`](hosts/akiri/options.nix) | Central host options and feature toggles (hostname, username, time, services, Homebrew, Yabai). |
-| [`hosts/akiri/system.nix`](hosts/akiri/system.nix) | System defaults (Touch ID sudo, timezone, platform, stateVersion). |
-| [`hosts/akiri/nix.nix`](hosts/akiri/nix.nix) | Nix settings (flakes, GC schedule, optimise, package pin). |
-| [`hosts/akiri/apps.nix`](hosts/akiri/apps.nix) | Fonts, environment variables, system packages, launchd agents for Autokbisw, Colima, SpoofDPI. |
-| [`hosts/akiri/homebrew.nix`](hosts/akiri/homebrew.nix) | Homebrew taps/casks; supports declarative cleanup. |
-| [`hosts/akiri/users.nix`](hosts/akiri/users.nix) | Primary user, host/computer name, SMB NetBIOS, trusted Nix users. |
-| [`hosts/akiri/yabai.nix`](hosts/akiri/yabai.nix) | Yabai/skhd/sketchybar toggles and configs (disabled by default). |
-| [`userConfigurations/kreato/main.nix`](userConfigurations/kreato/main.nix) | Home-manager entry (packages; shells; Starship; Nushell config/env; conditional Nixvim import). |
-| [`userConfigurations/kreato/options.nix`](userConfigurations/kreato/options.nix) | Per-user feature toggles (zsh, nushell, starship, nixvim, neovide). |
-| [`userConfigurations/kreato/neovim.nix`](userConfigurations/kreato/neovim.nix) | Detailed `nixvim` setup (Catppuccin, Treesitter, cmp, lualine, nvim-tree, dashboard; Avante disabled). |
-| [`userConfigurations/kreato/nushell/config.nu`](userConfigurations/kreato/nushell/config.nu) | Functions/aliases (`clean-gc`, `shell`, `ksh`), optional work profile SSH handling. |
+
+```
+.
+├── flake.nix                 # Entry point and inputs
+├── hosts/akiri/              # macOS host config
+├── hosts/hermes/             # OpenWrt router image + recovery scripts
+├── userConfigurations/       # Home-manager user configs
+└── workers/                  # Cloudflare Workers (Hermes ASU shim)
+```
+
+## macOS (akiri)
 
 ### Prerequisites
 - Install Nix or Lix (see the official guide at [nix.dev](https://nix.dev)).
 - macOS on Apple Silicon (arm64).
- - Could work with Intel (x86_64) but not tested.
+  - Could work with Intel (x86_64) but not tested.
 
 ### Install and switch
 Clone to `~/.config/nix-darwin`:
@@ -60,6 +60,8 @@ darwin-rebuild switch --flake .#akiri
 rebuild
 ```
 
+Update flake inputs and rebuild:
+
 ```bash
 nix flake update
 darwin-rebuild switch --flake .#akiri
@@ -73,63 +75,115 @@ Rollback the last activation if needed:
 darwin-rebuild switch --flake .#akiri --rollback
 ```
 
-<details>
-<summary><strong>Feature toggles and customization</strong></summary>
+## OpenWrt (hermes)
 
-- **Host options (edit [`hosts/akiri/options.nix`](hosts/akiri/options.nix))**:
-  - **Basics**:
-    - `hostName` (string)
-    - `userName` (string)
-    - `time.timeZone` (string)
-    - `security.sudo.touchIdAuth` (bool)
-  - **Services**:
-    - `services.autokbisw.enable` (bool), `services.autokbisw.startOnLogin` (bool)
-    - `services.colima.enable` (bool), `services.colima.startOnLogin` (bool)
-    - `services.spoofdpi.enable` (bool), `services.spoofdpi.enableDoh` (bool), `services.spoofdpi.windowSize` (int), `services.spoofdpi.startOnLogin` (bool)
-    - `services.spoofdpi.patterns` (list of strings; regex word-boundary matched)
-  - **Homebrew**:
-    - `homebrew.enable` (bool), `homebrew.autoUpdate` (bool), `homebrew.declarative` (bool; controls cleanup mode)
-  - **Window management**:
-    - `yabai.enable` (bool), `yabai.skhd.enable` (bool), `yabai.sketchybar.enable` (bool)
-- **User options (edit [`userConfigurations/kreato/options.nix`](userConfigurations/kreato/options.nix))**:
-  - `programs.zsh.enable`, `programs.nushell.enable`, `programs.starship.enable`, `programs.nixvim.enable`, `programs.neovide.enable`
-- **Lists you can customize**:
-  - [`hosts/akiri/options.nix`](hosts/akiri/options.nix): `services.spoofdpi.patterns` (list of domains/keywords)
-- [`hosts/akiri/apps.nix`](hosts/akiri/apps.nix):
-  - `fonts.packages` (list)
-  - `environment.systemPackages` (list)
-- [`hosts/akiri/homebrew.nix`](hosts/akiri/homebrew.nix):
-  - `homebrew.taps` (list)
-  - `homebrew.casks` (list)
-- [`userConfigurations/kreato/main.nix`](userConfigurations/kreato/main.nix):
-  - `home.packages` (list)
-- **Neovim**: customize plugins in [`userConfigurations/kreato/neovim.nix`](userConfigurations/kreato/neovim.nix).
+Hermes is an OpenWrt image for the Mercusys MR90X v1 router, built with `openwrt-imagebuilder`.
 
-Example: add a SpoofDPI site pattern in `hosts/akiri/options.nix`:
+### Building the image
 
-```nix
-services.spoofdpi.patterns = [
-  "discord"
-  "your-new-domain"
-];
+```bash
+nix build .#hermes
 ```
+
+The firmware binary will be in `result/`.
+
+### Flashing
+
+Flash the `*-sysupgrade.bin` file via the router's web interface or `sysupgrade` command.
+
+### Automated upgrades
+
+The image includes `luci-app-attendedsysupgrade` preconfigured to use the custom Hermes ASU endpoint, enabling one-click firmware upgrades from LuCI.
+
+## Hermes ASU Worker
+
+A Cloudflare Worker that emulates the [OpenWrt ASU API](https://github.com/openwrt/asu), serving prebuilt firmware metadata from GitHub Releases instead of building images on demand.
+
+### Why
+
+The official ASU service builds firmware dynamically. For a single-device setup with prebuilt images from CI, this worker provides a lightweight shim that:
+- Returns ASU-compatible JSON for LuCI's attended sysupgrade
+- Proxies firmware downloads with proper CORS headers
+- Caches metadata from GitHub Releases
+
+### Deploying
+
+```bash
+cd workers/hermes-asu
+bun install
+bunx wrangler deploy
+```
+
+Configure the metadata URL and cache TTL in `wrangler.toml`:
+
+```toml
+[vars]
+HERMES_METADATA_URL = "https://github.com/<user>/<repo>/releases/latest/download/hermes-latest.json"
+HERMES_CACHE_TTL_SECONDS = "300"
+```
+
+### Endpoints
+
+- `GET /health` - Health check
+- `GET /json/v1/overview.json` - ASU overview
+- `GET /api/v1/overview` - LuCI-compatible overview alias
+- `GET /json/v1/releases/<version>/targets/<target>/<profile>.json` - Profile metadata
+- `POST /api/v1/build` - Request firmware (returns immediate 200 with prebuilt image)
+- `GET /api/v1/build/<hash>` - Poll build status
+- `GET /store/<bin_dir>/<image>` - Proxy firmware download
+
+## Feature toggles and customization
+
+<details>
+<summary><strong>macOS host options</strong></summary>
+
+Edit `hosts/akiri/options.nix`:
+- **Basics**: `hostName`, `userName`, `time.timeZone`, `security.sudo.touchIdAuth`
+- **Services**:
+  - `services.autokbisw.enable`, `services.autokbisw.startOnLogin`
+  - `services.colima.enable`, `services.colima.startOnLogin`
+  - `services.spoofdpi.enable`, `services.spoofdpi.enableDoh`, `services.spoofdpi.windowSize`, `services.spoofdpi.startOnLogin`, `services.spoofdpi.patterns`
+- **Homebrew**: `homebrew.enable`, `homebrew.autoUpdate`, `homebrew.declarative`
+- **Window management**: `yabai.enable`, `yabai.skhd.enable`, `yabai.sketchybar.enable`
 
 </details>
 
-### Notable configurations
-- **Touch ID for sudo**: enabled in [`hosts/akiri/system.nix`](hosts/akiri/system.nix).
+<details>
+<summary><strong>User options</strong></summary>
+
+Edit `userConfigurations/<user>/options.nix`:
+- `programs.zsh.enable`
+- `programs.nushell.enable`
+- `programs.starship.enable`
+- `programs.nixvim.enable`
+- `programs.neovide.enable`
+
+</details>
+
+<details>
+<summary><strong>OpenWrt options</strong></summary>
+
+Edit `hosts/hermes/default.nix`:
+- Change `profiles.identifyProfile` for a different router
+- Modify `packages.nix` to add/remove OpenWrt packages
+- Adjust recovery script timeouts via uci-defaults
+
+</details>
+
+## Notable configurations
+- **Touch ID for sudo**: enabled in `hosts/akiri/system.nix`.
 - **Nix settings**: flakes enabled, weekly GC (Sunday 00:00), automatic optimisation.
 - **Fonts**: JetBrains Mono Nerd Font, Hack Nerd Font, Curie.
 - **Rosetta**: `ROSETTA_ADVERTISE_AVX=1` for AVX support under Rosetta.
 - **Apps as .app**: integrates [`mac-app-util`](https://github.com/hraban/mac-app-util) to improve macOS app handling for Nix-installed apps.
 
-### Helpful shell bits (Nushell)
-Defined in [`userConfigurations/kreato/nushell/config.nu`](userConfigurations/kreato/nushell/config.nu):
+## Helpful shell bits (Nushell)
+Defined in `userConfigurations/kreato/nushell/config.nu`:
 - **`rebuild`**: `darwin-rebuild switch --flake .#akiri`.
 - **`clean-gc`**: `sudo nix-collect-garbage --delete-old`.
 - **`shell <pkg>`**: `nix shell` helper with unfree allowed for ephemeral sessions.
-- **`ksh`**: Launches an ephemeral Fedora pod in Kubernetes with flexible flags (node, namespace, IP family, host network).
+- **`ksh`**: Launches an ephemeral Fedora pod in Kubernetes with flexible flags.
 - **Work profile**: set `WORK_PROFILE=true` to use separate SSH known_hosts and Git SSH options.
 
-### License
+## License
 This project is licensed under **AGPL-3.0**. See [`LICENSE`](LICENSE).

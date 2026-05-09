@@ -1,0 +1,10 @@
+#!/bin/sh
+# Configure attendedsysupgrade to use the custom ASU endpoint
+
+uci -q batch <<'EOF'
+set attendedsysupgrade.server=server
+set attendedsysupgrade.server.url='https://hermes-asu.kreation.workers.dev'
+commit attendedsysupgrade
+EOF
+
+exit 0
