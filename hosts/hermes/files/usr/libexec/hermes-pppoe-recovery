@@ -1,12 +1,13 @@
 #!/bin/sh
+# Hermes PPPoE recovery - runs as background monitor after sysupgrade
 set -eu
 
 LOG_TAG="hermes-pppoe-recovery"
 LOG_FILE="${HERMES_PPPOE_RECOVERY_LOG_FILE:-/tmp/hermes-pppoe-recovery.log}"
-READY_TIMEOUT="${HERMES_PPPOE_READY_TIMEOUT:-30}"
-TOTAL_TIMEOUT="${HERMES_PPPOE_TOTAL_TIMEOUT:-180}"
-BACKOFF_INITIAL="${HERMES_PPPOE_BACKOFF_INITIAL:-5}"
-BACKOFF_MAX="${HERMES_PPPOE_BACKOFF_MAX:-30}"
+READY_TIMEOUT="${HERMES_PPPOE_READY_TIMEOUT:-120}"
+TOTAL_TIMEOUT="${HERMES_PPPOE_TOTAL_TIMEOUT:-600}"
+BACKOFF_INITIAL="${HERMES_PPPOE_BACKOFF_INITIAL:-10}"
+BACKOFF_MAX="${HERMES_PPPOE_BACKOFF_MAX:-60}"
 WAN_IFACE="${HERMES_WAN_IFACE:-wan}"
 NETWORK_RESTART_CMD="${HERMES_NETWORK_RESTART_CMD:-/etc/init.d/network restart}"
 STATE_FILE="${HERMES_PPPOE_STATE_FILE:-/etc/hermes/pppoe-recovery.done}"
@@ -36,37 +37,46 @@ wan_is_up() {
 
 wan_auth_failed() {
   status="$1"
-  printf '%s' "$status" | grep -Eqi 'auth[-_ ]?failed|AUTH_FAILED'
+  printf '%s' "$status" | grep -Eqi 'auth[-_ ]?failed|AUTH_FAILED|authentication failed'
 }
 
 wait_for_netifd() {
   waited=0
   while [ "$waited" -lt "$READY_TIMEOUT" ]; do
     if ubus call "network.interface.$WAN_IFACE" status >/dev/null 2>&1; then
+      log "netifd ready after ${waited}s"
       return 0
     fi
     sleep 1
     waited=$((waited + 1))
   done
-  return 1
+  log "netifd not ready within ${READY_TIMEOUT}s, continuing anyway"
+  return 0
 }
 
 run_network_restart() {
-  sh -c "$NETWORK_RESTART_CMD"
+  log "restarting network service"
+  sh -c "$NETWORK_RESTART_CMD" >/dev/null 2>&1 || true
+}
+
+bounce_interface() {
+  log "bouncing interface $WAN_IFACE"
+  ifdown "$WAN_IFACE" >/dev/null 2>&1 || true
+  sleep 2
+  ifup "$WAN_IFACE" >/dev/null 2>&1 || true
 }
 
 mkdir -p "$(dirname "$LOG_FILE")"
-log "starting recovery for interface=$WAN_IFACE"
+log "starting recovery for interface=$WAN_IFACE (total timeout=${TOTAL_TIMEOUT}s)"
 
-if ! wait_for_netifd; then
-  log "netifd not ready within ${READY_TIMEOUT}s"
-  exit 1
-fi
+# Wait for netifd with extended timeout
+wait_for_netifd
 
 start_epoch=$(date +%s)
 deadline=$((start_epoch + TOTAL_TIMEOUT))
 attempt=1
 backoff="$BACKOFF_INITIAL"
+consecutive_auth_failures=0
 
 while :; do
   now=$(date +%s)
@@ -76,6 +86,7 @@ while :; do
   fi
 
   status=$(wan_status)
+
   if wan_is_up "$status"; then
     mkdir -p "$(dirname "$STATE_FILE")"
     : > "$STATE_FILE"
@@ -84,33 +95,29 @@ while :; do
   fi
 
   if wan_auth_failed "$status"; then
-    log "detected auth-failed state on attempt $attempt"
+    consecutive_auth_failures=$((consecutive_auth_failures + 1))
+    log "detected auth-failed state (consecutive=$consecutive_auth_failures)"
+
+    # After 3 consecutive auth failures, take action
+    if [ "$consecutive_auth_failures" -ge 3 ]; then
+      log "auth failed $consecutive_auth_failures times, restarting network"
+      run_network_restart
+      consecutive_auth_failures=0
+      sleep 5
+    fi
   else
+    consecutive_auth_failures=0
     log "WAN still down on attempt $attempt"
   fi
 
-  log "attempt $attempt: restarting network service"
-  if ! run_network_restart; then
-    log "network restart command failed"
+  # Also do a full network restart every 60 seconds as safety net
+  if [ "$attempt" -gt 1 ] && [ $((attempt % 6)) -eq 0 ]; then
+    log "periodic network restart (attempt $attempt)"
+    run_network_restart
+    sleep 5
   fi
 
-  post_restart_status=$(wan_status)
-  if wan_is_up "$post_restart_status"; then
-    mkdir -p "$(dirname "$STATE_FILE")"
-    : > "$STATE_FILE"
-    log "success after network restart on attempt $attempt"
-    exit 0
-  fi
-
-  if wan_auth_failed "$post_restart_status"; then
-    log "auth-failed persists; bouncing interface $WAN_IFACE"
-  else
-    log "bouncing interface $WAN_IFACE"
-  fi
-
-  ifdown "$WAN_IFACE" >/dev/null 2>&1 || true
-  sleep 1
-  ifup "$WAN_IFACE" >/dev/null 2>&1 || true
+  bounce_interface
 
   sleep "$backoff"
   if [ "$backoff" -lt "$BACKOFF_MAX" ]; then

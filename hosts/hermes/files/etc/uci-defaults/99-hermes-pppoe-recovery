@@ -9,6 +9,7 @@ if [ ! -f "$RECOVERY_SCRIPT" ]; then
   exit 0
 fi
 
-/bin/sh "$RECOVERY_SCRIPT" >/tmp/hermes-pppoe-recovery-firstboot.log 2>&1 || true
+# Run in background so boot isn't blocked and script keeps monitoring
+/bin/sh "$RECOVERY_SCRIPT" >/tmp/hermes-pppoe-recovery-firstboot.log 2>&1 &
 
 exit 0
