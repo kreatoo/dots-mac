@@ -22,13 +22,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install --cwd workers/hermes-asu
+        run: |
+          cd workers/hermes-asu
+          bun install
 
       - name: Deploy to Cloudflare
         run: |
