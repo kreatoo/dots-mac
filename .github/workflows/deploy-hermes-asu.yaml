@@ -31,6 +31,8 @@ jobs:
         run: bun install --cwd workers/hermes-asu
 
       - name: Deploy to Cloudflare
-        run: bunx --cwd workers/hermes-asu wrangler deploy
+        run: |
+          cd workers/hermes-asu
+          bun run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
