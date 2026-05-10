@@ -19,6 +19,7 @@ in
     ./nushell.nix
     ./neovide-config.nix
     ./opencode.nix
+    ./opnix.nix
     ./modules/work.nix
     ./modules/home.nix
   ] ++ lib.optionals uopts.programs.nixvim.enable [ ./neovim.nix ];

@@ -7,6 +7,7 @@
     nixvim.enable = true;
     neovide.enable = true;
     opencode.enable = true;
+    opnix.enable = true;
     minuet = {
       enable = true;
     };

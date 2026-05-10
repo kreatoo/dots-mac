@@ -35,6 +35,28 @@ This repository contains declarative configurations for macOS (via `nix-darwin` 
 - macOS on Apple Silicon (arm64).
   - Could work with Intel (x86_64) but not tested.
 
+### 1Password secrets (optional)
+
+Some provider API keys are managed via [OpNix](https://github.com/brizzbuzz/opnix) + [1Password Service Accounts](https://developer.1password.com/docs/service-accounts). If you skip this setup, the relevant provider simply won't be available — everything else works fine.
+
+**Setup (one-time):**
+
+1. Create a 1Password item: `op://Nix/OpenCode/crof-api-key` containing the crof API key
+2. [Create a 1Password Service Account](https://my.1password.com/developer-tools/serviceaccount) with read access to the `Nix` vault
+3. Provision the token:
+   ```bash
+   nix run github:brizzbuzz/opnix -- token set
+   ```
+4. Rebuild:
+   ```bash
+   darwin-rebuild switch --flake .#akiri
+   ```
+
+Toggle via `userConfigurations/<user>/options.nix`:
+```nix
+programs.opnix.enable = true;  # set to false to disable
+```
+
 ### Install and switch
 Clone to `~/.config/nix-darwin`:
 

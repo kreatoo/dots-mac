@@ -1,0 +1,16 @@
+{ config, lib, uopts, ... }:
+
+lib.mkIf uopts.programs.opnix.enable {
+  programs.onepassword-secrets = {
+    enable = true;
+    tokenFile = "${config.home.homeDirectory}/.config/opnix/token";
+
+    secrets = {
+      crofApiKey = {
+        reference = "op://Nix/OpenCode/crof-api-key";
+        path = ".config/opencode/crof-api-key";
+        mode = "0600";
+      };
+    };
+  };
+}

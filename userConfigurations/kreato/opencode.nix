@@ -254,6 +254,37 @@ in
             };
           };
         };
+        crof = {
+          name = "Crof";
+          models = {
+            "deepseek-v4-pro" = {
+              name = "DeepSeek V4 Pro";
+              limit = {
+                context = 1000000;
+                output = 131072;
+              };
+              modalities = {
+                input = [ "text" ];
+                output = [ "text" ];
+              };
+            };
+            "glm-5.1" = {
+              name = "GLM 5.1";
+              limit = {
+                context = 202752;
+                output = 202752;
+              };
+              modalities = {
+                input = [ "text" ];
+                output = [ "text" ];
+              };
+            };
+          };
+          options = {
+            baseURL = "https://crof.ai/v1";
+            apiKey = "{file:~/.config/opencode/crof-api-key}";
+          };
+        };
       };
     };
   };

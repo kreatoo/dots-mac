@@ -46,6 +46,11 @@
     openwrt-imagebuilder = {
       url = "github:astro/nix-openwrt-imagebuilder";
     };
+
+    opnix = {
+      url = "github:brizzbuzz/opnix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -59,6 +64,7 @@
       nixvim,
       jovian,
       openwrt-imagebuilder,
+      opnix,
       ...
     }:
     let
@@ -71,6 +77,7 @@
         specialArgs = { inherit nixpkgs-2511; };
         modules = [
           #mac-app-util.darwinModules.default
+          opnix.darwinModules.default
           ./hosts/akiri/modules.nix
           ./hosts/akiri/apps.nix
           ./hosts/akiri/homebrew.nix
@@ -82,6 +89,7 @@
           {
             home-manager.sharedModules = [
               #mac-app-util.homeManagerModules.default
+              opnix.homeManagerModules.default
               nixvim.homeModules.nixvim
             ];
             home-manager.useGlobalPkgs = true;
@@ -97,6 +105,7 @@
       darwinConfigurations.work = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit nixpkgs-2511; };
         modules = [
+          opnix.darwinModules.default
           ./hosts/work/modules.nix
           ./hosts/work/apps.nix
           ./hosts/work/homebrew.nix
@@ -106,6 +115,7 @@
           home-manager.darwinModules.home-manager
           {
             home-manager.sharedModules = [
+              opnix.homeManagerModules.default
               nixvim.homeModules.nixvim
             ];
             home-manager.useGlobalPkgs = true;
