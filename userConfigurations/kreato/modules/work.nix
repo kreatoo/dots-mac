@@ -17,6 +17,21 @@
       };
     };
 
+    programs.opencode.settings.mcp.github = {
+      type = "remote";
+      url = "https://api.githubcopilot.com/mcp/";
+      enabled = true;
+      headers = {
+        Authorization = "Bearer {file:~/.config/opencode/github-pat}";
+      };
+    };
+
+    programs.opencode.settings.mcp.mail = {
+      type = "local";
+      command = ["apple-mail-mcp"];
+      enabled = true;
+    };
+
     programs.opencode.settings.mcp.megaten_fusion.enabled = lib.mkForce false;
 
     programs.nushell.enable = lib.mkForce false;
@@ -37,6 +52,7 @@
 
     home.packages = with pkgs; [
         sshpass
+        apple-mail-mcp
     ];
   };
 }

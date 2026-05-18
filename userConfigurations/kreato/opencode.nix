@@ -270,6 +270,20 @@ in
                 output = [ "text" ];
               };
             };
+            "kimi-k2.5-lightning" = {
+              name = "Kimi K2.5 Lightning";
+              limit = {
+                context = 131072;
+                output = 32768;
+              };
+              modalities = {
+                input = [
+                  "text"
+                  "image"
+                ];
+                output = [ "text" ];
+              };
+            };
           };
           options = {
             baseURL = "https://crof.ai/v1";

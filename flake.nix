@@ -79,6 +79,9 @@
           #mac-app-util.darwinModules.default
           opnix.darwinModules.default
           ./hosts/akiri/modules.nix
+          {
+            nixpkgs.overlays = [ (import ./overlays/apple-mail-mcp.nix) ];
+          }
           ./hosts/akiri/apps.nix
           ./hosts/akiri/homebrew.nix
           ./hosts/akiri/nix.nix
@@ -107,6 +110,9 @@
         modules = [
           opnix.darwinModules.default
           ./hosts/work/modules.nix
+          {
+            nixpkgs.overlays = [ (import ./overlays/apple-mail-mcp.nix) ];
+          }
           ./hosts/work/apps.nix
           ./hosts/work/homebrew.nix
           ./hosts/work/nix.nix

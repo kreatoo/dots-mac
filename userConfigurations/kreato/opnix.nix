@@ -11,6 +11,12 @@ lib.mkIf uopts.programs.opnix.enable {
         path = ".config/opencode/crof-api-key";
         mode = "0600";
       };
+
+      githubPat = {
+        reference = "op://Nix/OpenCode/github-pat";
+        path = ".config/opencode/github-pat";
+        mode = "0600";
+      };
     };
   };
 }
