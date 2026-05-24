@@ -17,6 +17,12 @@ lib.mkIf uopts.programs.opnix.enable {
         path = ".config/opencode/github-pat";
         mode = "0600";
       };
+
+      crofApiKeyLibreTurks = {
+        reference = "op://Nix/OpenCode/crof-api-key-libreturks";
+        path = ".config/opencode/crof-api-key-libreturks";
+        mode = "0600";
+      };
     };
   };
 }
