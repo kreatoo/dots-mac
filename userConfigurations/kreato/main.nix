@@ -14,6 +14,7 @@ in
 
   imports = [
     ./packages.nix
+    ./git.nix
     ./zsh.nix
     ./starship.nix
     ./nushell.nix

@@ -26,7 +26,6 @@
     docker
     fd
     fzf
-    lazygit
     luarocks
     nixfmt
     hyfetch

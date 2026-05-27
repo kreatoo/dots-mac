@@ -304,6 +304,17 @@ in
                 output = [ "text" ];
               };
             };
+            "deepseek-v4-pro-precision" = {
+              name = "DeepSeek V4 Pro Precision";
+              limit = {
+                context = 1000000;
+                output = 131072;
+              };
+              modalities = {
+                input = [ "text" ];
+                output = [ "text" ];
+              };
+            };
             "glm-5.1" = {
               name = "GLM 5.1";
               limit = {
