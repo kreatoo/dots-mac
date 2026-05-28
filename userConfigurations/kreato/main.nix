@@ -12,6 +12,13 @@ in
 
   _module.args = { inherit uopts systemName; };
 
+  home.enableNixpkgsReleaseCheck = false;
+
+  programs.nixvim = {
+    nixpkgs.source = pkgs.path;
+    version.enableNixpkgsReleaseCheck = false;
+  };
+
   imports = [
     ./packages.nix
     ./git.nix

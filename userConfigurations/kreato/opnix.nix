@@ -23,6 +23,12 @@ lib.mkIf uopts.programs.opnix.enable {
         path = ".config/opencode/crof-api-key-libreturks";
         mode = "0600";
       };
+
+      commandcodeApiKey = {
+        reference = "op://Nix/OpenCode/commandcode-api-key";
+        path = ".config/opencode/commandcode-api-key";
+        mode = "0600";
+      };
     };
   };
 }

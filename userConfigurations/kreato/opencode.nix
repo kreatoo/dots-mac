@@ -9,6 +9,26 @@ let
     url = "https://raw.githubusercontent.com/postrednik/opencode-ayu-theme/main/.opencode/themes/ayu-dark.json";
     sha256 = "00fd1c8vm7pljsy3xjv3nx3lpjpynja2799wn9g0xi1dqprwg7j7";
   };
+
+  commandcode-models-json = builtins.fromJSON (builtins.readFile (builtins.fetchurl {
+    url = "http://127.0.0.1:8082/v1/models";
+    sha256 = "0a3s4nin7wm8883xafdsfr9yd55zby6msy4dagirc9ayi5zbvj0r";
+  }));
+
+  commandcode-models = builtins.listToAttrs (map (model: {
+    name = model.id;
+    value = {
+      name = model.name;
+      limit = {
+        context = if model.context_length != null then model.context_length else 128000;
+        output = 16384;
+      };
+      modalities = {
+        input = [ "text" ];
+        output = [ "text" ];
+      };
+    };
+  }) commandcode-models-json.data);
 in
 {
   programs.opencode = {
@@ -330,6 +350,14 @@ in
           options = {
             baseURL = "https://crof.ai/v1";
             apiKey = "{file:~/.config/opencode/crof-api-key-libreturks}";
+          };
+        };
+        commandcode = {
+          name = "CommandCode";
+          models = commandcode-models;
+          options = {
+            baseURL = "http://127.0.0.1:8082/v1";
+            apiKey = "{file:~/.config/opencode/commandcode-api-key}";
           };
         };
       };

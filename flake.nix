@@ -18,7 +18,6 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     treefmt-nix = {
@@ -137,7 +136,6 @@
       # Build NixOS flake using:
       # $ sudo nixos-rebuild build --flake .#ludus
       nixosConfigurations.ludus = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         modules = [
           jovian.nixosModules.jovian
           home-manager.nixosModules.home-manager
