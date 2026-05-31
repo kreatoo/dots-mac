@@ -10,7 +10,7 @@ This repository contains declarative configurations for macOS (via `nix-darwin` 
 - **macOS**: Apple Silicon setup with `nix-darwin`, `home-manager`, and `nixvim`.
 - **Shells**: Zsh and Nushell with Starship; handy aliases; optional "work profile" gating via `WORK_PROFILE`.
 - **Editor**: Neovim via `nixvim` (Catppuccin theme, Treesitter, LSP completion, lualine, nvim-tree, dashboard). Optional Neovide GUI.
-- **macOS services**: Autokbisw (keyboard language switcher), Colima (Docker on macOS), SpoofDPI (with DoH and patterns); all toggleable.
+- **macOS services**: Autokbisw (keyboard language switcher), Colima (Docker on macOS), ihtc (DPI circumvention proxy with re-fragmentation); all toggleable.
 - **Window management**: Yabai + skhd + sketchybar wiring available (disabled by default).
 - **OpenWrt router**: Hermes image for Mercusys MR90X v1 with automated upgrades via `luci-app-attendedsysupgrade`.
 - **PPPoE recovery**: Automatic WAN recovery after sysupgrade when PPPoE auth fails.
@@ -161,10 +161,11 @@ HERMES_CACHE_TTL_SECONDS = "300"
 
 Edit `hosts/akiri/options.nix`:
 - **Basics**: `hostName`, `userName`, `time.timeZone`, `security.sudo.touchIdAuth`
+- **ihtc** (DPI circumvention):
+  - `services.ihtc.enable`, `services.ihtc.port`, `services.ihtc.patterns`
 - **Services**:
   - `services.autokbisw.enable`, `services.autokbisw.startOnLogin`
   - `services.colima.enable`, `services.colima.startOnLogin`
-  - `services.spoofdpi.enable`, `services.spoofdpi.enableDoh`, `services.spoofdpi.windowSize`, `services.spoofdpi.startOnLogin`, `services.spoofdpi.patterns`
 - **Homebrew**: `homebrew.enable`, `homebrew.autoUpdate`, `homebrew.declarative`
 - **Window management**: `yabai.enable`, `yabai.skhd.enable`, `yabai.sketchybar.enable`
 

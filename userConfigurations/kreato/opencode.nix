@@ -12,7 +12,7 @@ let
 
   commandcode-models-json = builtins.fromJSON (builtins.readFile (builtins.fetchurl {
     url = "http://127.0.0.1:8082/v1/models";
-    sha256 = "0a3s4nin7wm8883xafdsfr9yd55zby6msy4dagirc9ayi5zbvj0r";
+    sha256 = "194g7469qq6v9ams55jpmaaxryf30mv9y0admscj7slj8lavz7ih";
   }));
 
   commandcode-models = builtins.listToAttrs (map (model: {

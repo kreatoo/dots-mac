@@ -37,11 +37,9 @@
       };
     };
 
-    spoofdpi = {
+    ihtc = {
       enable = true;
-      enableDoh = true;
-      windowSize = 1;
-      startOnLogin = true;
+      port = 4452;
       patterns = [
         "discord"
         "discordapp"

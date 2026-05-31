@@ -1,7 +1,4 @@
-{ pkgs, nixpkgs-2511, ... }:
-let
-  pkgs-2511 = nixpkgs-2511.legacyPackages.${pkgs.system};
-in
+{ pkgs, ... }:
 {
   environment.systemPackages =
     with pkgs;
@@ -16,9 +13,6 @@ in
       pear-desktop
       cyberduck
       utm
-    ]
-    ++ [
-      pkgs-2511.spoofdpi
     ];
 
   homebrew.casks = [

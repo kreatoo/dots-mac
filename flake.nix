@@ -38,8 +38,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-2511 = {
-      url = "github:NixOS/nixpkgs/nixos-25.11";
+    ihtc = {
+      url = "github:kreatoo/ihtc";
     };
 
     openwrt-imagebuilder = {
@@ -58,7 +58,6 @@
       nix-darwin,
       home-manager,
       nixpkgs,
-      nixpkgs-2511,
       mac-app-util,
       nixvim,
       jovian,
@@ -68,13 +67,21 @@
     }:
     let
       systemName = "akiri";
+      akiriOpts = import ./hosts/akiri/options.nix;
     in
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#akiri
       darwinConfigurations.${systemName} = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit nixpkgs-2511; };
         modules = [
+          inputs.ihtc.darwinModules.default
+          ({ lib, ... }: {
+            services.ihtc = lib.mkIf akiriOpts.services.ihtc.enable {
+              enable = true;
+              port = akiriOpts.services.ihtc.port;
+              patterns = akiriOpts.services.ihtc.patterns;
+            };
+          })
           #mac-app-util.darwinModules.default
           opnix.darwinModules.default
           ./hosts/akiri/modules.nix
@@ -105,7 +112,6 @@
       };
 
       darwinConfigurations.work = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit nixpkgs-2511; };
         modules = [
           opnix.darwinModules.default
           ./hosts/work/modules.nix
