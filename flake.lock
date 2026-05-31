@@ -138,11 +138,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1780268445,
-        "narHash": "sha256-19qfrDdRvnn+0uGF+K6oDwSo3VV/0odemrDyh0Xz+yU=",
+        "lastModified": 1780268976,
+        "narHash": "sha256-EfRwntAHss0oYN0pFBKVu890VZ+y7rE7LOIVAFyy9zE=",
         "owner": "kreatoo",
         "repo": "ihtc",
-        "rev": "94c0ae955ac8bfd50b7da32c7419c334b02b177d",
+        "rev": "bccd8b55d7aae3a9b221076be4f4e994e08aa94b",
         "type": "github"
       },
       "original": {
