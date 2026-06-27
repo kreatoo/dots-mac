@@ -20,11 +20,14 @@
     starship
     fastfetch
     bat
+    ripgrep
     qemu
     watch
     k9s
+    colima
     docker
     fd
+    fluxcd
     fzf
     luarocks
     nixfmt

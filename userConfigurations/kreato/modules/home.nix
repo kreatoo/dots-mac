@@ -20,8 +20,6 @@
       jellyfin-tui
       ghidra-bin
       nodejs
-      cursor-cli
-      claude-code
     ];
   };
 }

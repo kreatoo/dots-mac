@@ -27,6 +27,7 @@ in
     ./nushell.nix
     ./neovide-config.nix
     ./opencode.nix
+    ./pi.nix
     ./opnix.nix
     ./modules/work.nix
     ./modules/home.nix

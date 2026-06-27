@@ -8,6 +8,7 @@
     neovide.enable = true;
     opencode.enable = true;
     opnix.enable = true;
+    pi.enable = true;
     minuet = {
       enable = true;
     };

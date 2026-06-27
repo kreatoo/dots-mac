@@ -50,6 +50,10 @@
       url = "github:brizzbuzz/opnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+    };
   };
 
   outputs =
@@ -63,11 +67,12 @@
       jovian,
       openwrt-imagebuilder,
       opnix,
+      llm-agents,
       ...
     }:
     let
-      systemName = "akiri";
       akiriOpts = import ./hosts/akiri/options.nix;
+      systemName = "akiri";
     in
     {
       # Build darwin flake using:
@@ -86,7 +91,10 @@
           opnix.darwinModules.default
           ./hosts/akiri/modules.nix
           {
-            nixpkgs.overlays = [ (import ./overlays/apple-mail-mcp.nix) ];
+            nixpkgs.overlays = [
+              llm-agents.overlays.default
+              (import ./overlays/apple-mail-mcp.nix)
+            ];
           }
           ./hosts/akiri/apps.nix
           ./hosts/akiri/homebrew.nix
@@ -105,8 +113,8 @@
             home-manager.useUserPackages = true;
             home-manager.users.kreato = import ./userConfigurations/kreato/main.nix;
             home-manager.extraSpecialArgs = {
-              inherit systemName;
-            };
+            	inherit systemName;
+	    };
           }
         ];
       };
@@ -116,7 +124,10 @@
           opnix.darwinModules.default
           ./hosts/work/modules.nix
           {
-            nixpkgs.overlays = [ (import ./overlays/apple-mail-mcp.nix) ];
+            nixpkgs.overlays = [
+              llm-agents.overlays.default
+              (import ./overlays/apple-mail-mcp.nix)
+            ];
           }
           ./hosts/work/apps.nix
           ./hosts/work/homebrew.nix

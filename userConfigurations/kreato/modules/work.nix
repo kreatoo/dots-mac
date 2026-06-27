@@ -17,15 +17,6 @@
       };
     };
 
-    programs.opencode.settings.mcp.github = {
-      type = "remote";
-      url = "https://api.githubcopilot.com/mcp/";
-      enabled = true;
-      headers = {
-        Authorization = "Bearer {file:~/.config/opencode/github-pat}";
-      };
-    };
-
     programs.opencode.settings.mcp.mail = {
       type = "local";
       command = ["apple-mail-mcp"];

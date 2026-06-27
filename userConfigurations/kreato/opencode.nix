@@ -9,26 +9,6 @@ let
     url = "https://raw.githubusercontent.com/postrednik/opencode-ayu-theme/main/.opencode/themes/ayu-dark.json";
     sha256 = "00fd1c8vm7pljsy3xjv3nx3lpjpynja2799wn9g0xi1dqprwg7j7";
   };
-
-  commandcode-models-json = builtins.fromJSON (builtins.readFile (builtins.fetchurl {
-    url = "http://127.0.0.1:8082/v1/models";
-    sha256 = "194g7469qq6v9ams55jpmaaxryf30mv9y0admscj7slj8lavz7ih";
-  }));
-
-  commandcode-models = builtins.listToAttrs (map (model: {
-    name = model.id;
-    value = {
-      name = model.name;
-      limit = {
-        context = if model.context_length != null then model.context_length else 128000;
-        output = 16384;
-      };
-      modalities = {
-        input = [ "text" ];
-        output = [ "text" ];
-      };
-    };
-  }) commandcode-models-json.data);
 in
 {
   programs.opencode = {
@@ -41,7 +21,6 @@ in
     settings = {
       plugin = [
         "superpowers@git+https://github.com/obra/superpowers.git"
-        "@tarquinen/opencode-dcp@latest"
         "cc-safety-net"
       ];
       mcp = {
@@ -57,6 +36,14 @@ in
           type = "remote";
           url = "https://mcp.exa.ai/mcp";
           enabled = true;
+        };
+        github = {
+          type = "remote";
+          url = "https://api.githubcopilot.com/mcp/";
+          enabled = true;
+          headers = {
+            Authorization = "Bearer {file:~/.config/opencode/github-pat}";
+          };
         };
       };
       permission = {
@@ -354,7 +341,6 @@ in
         };
         commandcode = {
           name = "CommandCode";
-          models = commandcode-models;
           options = {
             baseURL = "http://127.0.0.1:8082/v1";
             apiKey = "{file:~/.config/opencode/commandcode-api-key}";
@@ -375,6 +361,43 @@ in
 
   home.file.".opencode/themes/ayu-dark.json" = lib.mkIf uopts.programs.opencode.enable {
     source = ayu-dark-theme;
+  };
+
+  home.file.".config/opencode/plugin/commandcode.ts" = lib.mkIf uopts.programs.opencode.enable {
+    text = ''
+      import type { Plugin } from "@opencode-ai/plugin"
+
+      export default (async () => {
+        let models: Record<string, any> = {}
+
+        try {
+          const res = await fetch("http://127.0.0.1:8082/v1/models")
+          if (res.ok) {
+            const data = await res.json()
+            for (const model of data.data ?? []) {
+              models[model.id] = {
+                name: model.id.split("/").pop() ?? model.id,
+                limit: { context: 1000000, output: 16384 },
+                modalities: { input: ["text"], output: ["text"] },
+              }
+            }
+          }
+        } catch {
+          // proxy not running yet
+        }
+
+        return {
+          config: (cfg) => {
+            cfg.provider ??= {}
+            cfg.provider.commandcode ??= { models: {} }
+            cfg.provider.commandcode.models = {
+              ...models,
+              ...(cfg.provider.commandcode.models ?? {}),
+            }
+          },
+        }
+      }) satisfies Plugin
+    '';
   };
 
   home.file.".config/opencode/plugin/terminal-bell.ts" = lib.mkIf uopts.programs.opencode.enable {
