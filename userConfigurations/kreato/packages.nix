@@ -23,6 +23,7 @@
     ripgrep
     qemu
     watch
+    sops
     k9s
     colima
     docker
